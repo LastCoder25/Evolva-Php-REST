@@ -10,7 +10,7 @@ class UserCtrl extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->library('jsonbourne');        //logical class to deal with json
-		$this->load->model('UserModel');        // data layer
+		$this->load->model('userModel');        // data layer
 	}
 
 	/**
@@ -29,9 +29,9 @@ class UserCtrl extends CI_Controller
     */
     public function getUsers()
     {
-        $arrayOUsers = $this->UserModel->getAllUsers(); // request to model
+        $arrayOUsers = $this->userModel->getAllUsers(); // request to model
         //return a json
-		echo  count($arrayOUsers) > 1 ?  $this->jsonbourne->forge(0, "Users exist", $arrayOUsers):  $this->jsonbourne->forge(1, "no company", null);
+		echo  count($arrayOUsers) > 1 ?  $this->jsonbourne->forge(0, "Users exist", $arrayOUsers):  $this->jsonbourne->forge(1, "no user", null);
     }
 
 }
