@@ -6,6 +6,7 @@ Models which makes queries to the Company table of your database
 */
 class UserModel extends CI_Model
 {
+    log_message('info', "UserModel ici");
     /* ############### BASIC CRUD ################ */
 
     /* _________________ RETRIEVE __________________ */
@@ -15,6 +16,7 @@ class UserModel extends CI_Model
     */
     public function getAllUsers()
     {
+        log_message('info', "UserModel ici");
         $this -> db -> select('*');
         $this -> db -> from('user');
 

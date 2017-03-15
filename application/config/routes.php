@@ -11,4 +11,5 @@ $route['translate_uri_dashes'] = FALSE;
 | DEFINE YOUR OWNS ROUTES
 |------------------------------------------------------------------------
 */
-$route['users/all']['GET'] = 'userCtrl/getUsers';
+$route['users']['GET'] = 'userCtrl/getUsers';
+log_message('info', "routes ici");
