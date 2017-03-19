@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class UserCtrl extends CI_Controller
+class ExchangeCtrl extends CI_Controller
 {
 	/**
 	Constructor that loads models and libraries
@@ -12,7 +12,7 @@ class UserCtrl extends CI_Controller
 		header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
 		parent::__construct();
 		$this->load->library('jsonbourne');        //logical class to deal with json
-		$this->load->model('userModel');        // data layer
+		$this->load->model('exchangeModel');        // data layer
 	}
 
 	/**
@@ -29,11 +29,11 @@ class UserCtrl extends CI_Controller
     Request to get ALL getCompanies
     Send a jsonArray of companies as a response
     */
-    public function getUsers()
+    public function getExchanges()
     {
-        $arrayOUsers = $this->userModel->getAllUsers(); // request to model
+        $arrayOExchanges = $this->exchangeModel->getAllExchanges(); // request to model
         //return a json
-		echo  count($arrayOUsers) > 1 ?  $this->jsonbourne->forge(0, "Users exist", $arrayOUsers):  $this->jsonbourne->forge(1, "no user", null);
+		echo  count($arrayOExchanges) > 1 ?  $this->jsonbourne->forge(0, "Exchanges exist", $arrayOExchanges):  $this->jsonbourne->forge(1, "no exchange", null);
     }
 
 }

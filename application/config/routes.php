@@ -12,5 +12,6 @@ $route['translate_uri_dashes'] = FALSE;
 |------------------------------------------------------------------------
 */
 $route['users']['GET'] = 'userCtrl/getUsers';
+$route['exchanges']['GET'] = 'exchangeCtrl/getExchanges';
 $route['status']['GET'] = 'statusCtrl/getStatus';
 log_message('info', "routes ici");
