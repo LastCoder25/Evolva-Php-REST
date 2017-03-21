@@ -40,11 +40,11 @@ class UserCtrl extends CI_Controller
 		Request to check if an identifiant is free to use
 		Send a jsonArray of user as a response
 		*/
-		public function checkIdentifiant()
+		public function checkIdentifiant($identifiant)
 		{
 				log_message('info', "checkIdentifiant");
-				$userData = $this->jsonbourne->decodeReqBody();
-				$arrayOUsers = $this->userModel->getOneUser($userData);
+				//$userData = $this->jsonbourne->decodeReqBody();
+				$arrayOUsers = $this->userModel->getOneUser($identifiant);
 				//return a json
 				echo count($arrayOUsers) > 1 ?  $this->jsonbourne->forge(0, "Users exist", $arrayOUsers):  $this->jsonbourne->forge(1, "no user", null);
 		}

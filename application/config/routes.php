@@ -16,7 +16,8 @@ $route['user']['GET'] = 'userCtrl/getUsers';
 // $route['user/check/(:)']['GET'] = 'userCtrl/getUser';
 // $route['company/check/(:num)']['POST'] = 'companyCtrl/checkCompany/$1';
 $route['user']['POST'] = 'userCtrl/createUser';
-$route['user/check']['GET'] = 'userCtrl/checkIdentifiant';
+$route['user/check']['GET'] = 'userCtrl/checkIdentifiant';///////"
+$route['user/(:num)']['GET'] = 'userCtrl/checkIdentifiant/$1';
 
 /* EXCHANGE routes */
 $route['exchanges']['GET'] = 'exchangeCtrl/getExchanges';
