@@ -1,4 +1,4 @@
-<?php if 
+<?php if
 ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
@@ -15,7 +15,7 @@ class CompanyModel extends CI_Model
     */
     public function create($data)
     {
-        //basic exaamples 
+        //basic exaamples
         if (isset($data['name'])) $this->db->set ('name', $data['name']);
         if (isset($data['address'])) $this->db->set ('address', $data['address']);
         if (isset($data['city'])) $this->db->set ('city', $data['city']);
@@ -23,17 +23,17 @@ class CompanyModel extends CI_Model
 
         return $this->db->insert('company');
     }
-    
+
     /* _________________ RETRIEVE __________________ */
     /**
-    Retrieve all companies 
+    Retrieve all companies
     @return query array of companies
     */
     public function getAllCompanies()
     {
         $this -> db -> select('*');
         $this -> db -> from('company');
-        
+
         $query = $this -> db -> get();
 
         if($query -> num_rows() >= 1) return $query->result();
@@ -48,9 +48,9 @@ class CompanyModel extends CI_Model
     public function getCompanyData($companyId)
     {
         $this->db->select('*');
-        $this-> db->from('company');
+        $this->db->from('company');
         $this->db->where('id', $companyId);
-        
+
         $query = $this->db->get();
 
         if($query->num_rows() == 1) return $query->result();
@@ -58,7 +58,7 @@ class CompanyModel extends CI_Model
     }
 
     /**
-    check if company exists and activated 
+    check if company exists and activated
     @params $companyId
     @return $licenseId
     */
@@ -69,9 +69,9 @@ class CompanyModel extends CI_Model
 
     /**
     CHeck if the software version is up to date
-    @params $companyId company id 
-    @params $version 
-    @return result array 
+    @params $companyId company id
+    @params $version
+    @return result array
     */
     public function companyUpToDate($companyId, $version)
     {

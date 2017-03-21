@@ -10,13 +10,30 @@ class UserModel extends CI_Model
 
     /* _________________ RETRIEVE __________________ */
     /**
-    Retrieve all companies
-    @return query array of companies
+    Retrieve all users
+    @return query array of users
     */
     public function getAllUsers()
     {
         $this -> db -> select('*');
         $this -> db -> from('user');
+
+        $query = $this -> db -> get();
+
+        if($query -> num_rows() >= 1) return $query->result();
+        else return false;
+    }
+
+    /**
+    Retrieve one user
+    @return query array of user
+    */
+    public function getOneUser($data)
+    {
+        log_message('info', "getOneUser");
+        $this -> db -> select('identifiant');
+        $this -> db -> from('user');
+        $this -> db -> where('identifiant', $data['identifiant']);
 
         $query = $this -> db -> get();
 
@@ -31,13 +48,11 @@ class UserModel extends CI_Model
     */
     public function create($data)
     {
-        log_message('info', "userModel debut");
-        if (isset($data['identifiant'])) $this->db->POST('identifiant', $data['identifiant']);
-        if (isset($data['firstname'])) $this->db->POST('firstname', $data['firstname']);
-        if (isset($data['lastname'])) $this->db->POST('lastname', $data['lastname']);
-        if (isset($data['password'])) $this->db->POST('password', $data['password']);
+        if (isset($data['identifiant'])) $this->db->set('identifiant', $data['identifiant']);
+        if (isset($data['firstname'])) $this->db->set('firstname', $data['firstname']);
+        if (isset($data['lastname'])) $this->db->set('lastname', $data['lastname']);
+        if (isset($data['password'])) $this->db->set('password', $data['password']);
         //if (isset($data['accountCreationDate'])) $this->db->set ('accountCreationDate', 'NOW()', FALSE);
-        log_message('info', "userModel fin");
         return $this->db->insert('User');
     }
 

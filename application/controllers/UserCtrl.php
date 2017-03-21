@@ -27,7 +27,7 @@ class UserCtrl extends CI_Controller
 
     /**
     Request to get ALL users
-    Send a jsonArray of companies as a response
+    Send a jsonArray of users as a response
     */
     public function getUsers()
     {
@@ -35,6 +35,19 @@ class UserCtrl extends CI_Controller
         //return a json
 				echo count($arrayOUsers) > 1 ?  $this->jsonbourne->forge(0, "Users exist", $arrayOUsers):  $this->jsonbourne->forge(1, "no user", null);
     }
+
+		/**
+		Request to check if an identifiant is free to use
+		Send a jsonArray of user as a response
+		*/
+		public function checkIdentifiant()
+		{
+				log_message('info', "checkIdentifiant");
+				$userData = $this->jsonbourne->decodeReqBody();
+				$arrayOUsers = $this->userModel->getOneUser($userData);
+				//return a json
+				echo count($arrayOUsers) > 1 ?  $this->jsonbourne->forge(0, "Users exist", $arrayOUsers):  $this->jsonbourne->forge(1, "no user", null);
+		}
 
 		/* _________________________ POST _______________________ */
 		/**
@@ -45,9 +58,10 @@ class UserCtrl extends CI_Controller
 		public function createUser()
 		{
 					log_message('info', "userCtrl");
-					$userData = $this->jsonbourne->decodeReqBody();                         //get json
-					$resultFromCreateANewUser = $this->userModel->create($userData);     // pass arguments as array
+					$userData = $this->jsonbourne->decodeReqBody();
+					$resultFromCreateANewUser = $this->userModel->create($userData);
 					echo count($resultFromCreateANewUser) > 1 ?  $this->jsonbourne->forge(0, "The user has been created", $resultFromCreateANewUser):  $this->jsonbourne->forge(1, "error in the creation of user", null);
 		}
+
 
 }
