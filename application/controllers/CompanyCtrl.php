@@ -1,20 +1,20 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class CompanyCtrl extends CI_Controller 
+class CompanyCtrl extends CI_Controller
 {
 	/**
 	Constructor that loads models and libraries
 	*/
-	public function __construct() 
+	public function __construct()
 	{
 		parent::__construct();
-		$this->load->library('jsonbourne');        //logical class to deal with json 
-		$this->load->model('companyModel');        // data layer 
+		$this->load->library('jsonbourne');        //logical class to deal with json
+		$this->load->model('companyModel');        // data layer
 	}
 
 	/**
-	get the root of the controller 
+	get the root of the controller
 	@deprecated
 	*/
 	public function index()
@@ -27,7 +27,7 @@ class CompanyCtrl extends CI_Controller
     Request to get ALL getCompanies
     Send a jsonArray of companies as a response
     */
-    public function getcompanies() 
+    public function getcompanies()
     {
         $arrayOCompanies = $this->companyModel->getAllCompanies(); // request to model
         //return a json
@@ -37,7 +37,7 @@ class CompanyCtrl extends CI_Controller
     /**
     Request to get a specific getCompany
     @params $companyId company's id
-    Send a json of company data 
+    Send a json of company data
     */
      public function getcompany($companyId)
     {
@@ -56,17 +56,17 @@ class CompanyCtrl extends CI_Controller
 	*/
 	public function setCompany()
 	{
-        $companyData = $this->jsonbourne->decodeReqBody();                           //get json 
-		$resultFromCreateANewCompany = $this->companyModel->create($input_data);     // pass arguments as array
+        $companyData = $this->jsonbourne->decodeReqBody();
+		$resultFromCreateANewCompany = $this->companyModel->create($input_data);  
 		echo  count($resultFromCreateANewCompany) > 1 ?  $this->jsonbourne->forge(0, "The company has been created", $resultFromCreateANewCompany):  $this->jsonbourne->forge(1, "error in the creation of compnay", null);
-	} 
+	}
 
 	/**
 	Verify if company exists
 	@params $companyId company's id
-	Send json array 
+	Send json array
 	*/
-	public function checkCompany($companyId) 
+	public function checkCompany($companyId)
 	{
 		// connect to model to request db
         $companyExists = $this->companyModel->companyExists($companyId);
@@ -90,7 +90,7 @@ class CompanyCtrl extends CI_Controller
 
     public function updateCompany($companyId)
     {
-        # code...get $companyId + json 
+        # code...get $companyId + json
     }
 
     /* _________________________ DELETE _______________________ */
@@ -104,5 +104,5 @@ class CompanyCtrl extends CI_Controller
 		$result = $this->companyModel->delete($companyId);
 		echo $this->jsoncreator->forge(0, $result, null);
 	}
-	
+
 }

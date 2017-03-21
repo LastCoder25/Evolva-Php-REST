@@ -33,7 +33,7 @@ class ExchangeCtrl extends CI_Controller
     {
         $arrayOExchanges = $this->exchangeModel->getAllExchanges(); // request to model
         //return a json
-		echo  count($arrayOExchanges) > 1 ?  $this->jsonbourne->forge(0, "Exchanges exist", $arrayOExchanges):  $this->jsonbourne->forge(1, "no exchange", null);
+				echo count($arrayOExchanges) > 1 ?  $this->jsonbourne->forge(0, "Exchanges exist", $arrayOExchanges):  $this->jsonbourne->forge(1, "no exchange", null);
     }
 
 }

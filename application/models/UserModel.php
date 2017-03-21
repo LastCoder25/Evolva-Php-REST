@@ -24,4 +24,21 @@ class UserModel extends CI_Model
         else return false;
     }
 
+    #* _________________ CREATE __________________ */
+    /**
+    Create a new user
+    @params $data Array of data received and decode from the json
+    */
+    public function create($data)
+    {
+        log_message('info', "userModel debut");
+        if (isset($data['identifiant'])) $this->db->POST('identifiant', $data['identifiant']);
+        if (isset($data['firstname'])) $this->db->POST('firstname', $data['firstname']);
+        if (isset($data['lastname'])) $this->db->POST('lastname', $data['lastname']);
+        if (isset($data['password'])) $this->db->POST('password', $data['password']);
+        //if (isset($data['accountCreationDate'])) $this->db->set ('accountCreationDate', 'NOW()', FALSE);
+        log_message('info', "userModel fin");
+        return $this->db->insert('User');
+    }
+
 }

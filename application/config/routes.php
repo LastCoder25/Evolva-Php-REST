@@ -11,7 +11,14 @@ $route['translate_uri_dashes'] = FALSE;
 | DEFINE YOUR OWNS ROUTES
 |------------------------------------------------------------------------
 */
-$route['users']['GET'] = 'userCtrl/getUsers';
+/* USER routes */
+$route['user']['GET'] = 'userCtrl/getUsers';
+// $route['user/check/(:)']['GET'] = 'userCtrl/getUser';
+// $route['company/check/(:num)']['POST'] = 'companyCtrl/checkCompany/$1';
+$route['user']['POST'] = 'userCtrl/createUser';
+
+/* EXCHANGE routes */
 $route['exchanges']['GET'] = 'exchangeCtrl/getExchanges';
+
+/* STATUS routes */
 $route['status']['GET'] = 'statusCtrl/getStatus';
-log_message('info', "routes ici");
