@@ -53,3 +53,7 @@ INSERT INTO exchange (depositeFromDate, depositeByDate, sellFromDate, sellByDate
 VALUES ("2017-07-02", "2017-07-05", "2017-07-06", "2017-07-08", "2017-07-09", "2017-07-15", "Vêtements");
 INSERT INTO exchange (depositeFromDate, depositeByDate, sellFromDate, sellByDate, withdrawalFromDate, withdrawalByDate, type)
 VALUES ("2017-07-02", "2017-07-05", "2017-07-06", "2017-07-08", "2017-07-09", "2017-07-15", "Jouets");
+INSERT INTO exchange (depositeFromDate, depositeByDate, sellFromDate, sellByDate, withdrawalFromDate, withdrawalByDate, type)
+VALUES ("2017-04-04", "2017-04-06", "2017-04-07", "2017-04-09", "2017-04-010", "2017-04-13", "Vêtements");
+INSERT INTO exchange (depositeFromDate, depositeByDate, sellFromDate, sellByDate, withdrawalFromDate, withdrawalByDate, type)
+VALUES ("2017-11-02", "2017-11-05", "2017-11-06", "2017-11-08", "2017-11-09", "2017-11-15", "Jouets");

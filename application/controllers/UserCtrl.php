@@ -6,10 +6,10 @@ class UserCtrl extends CI_Controller
 	/**
 	Constructor that loads models and libraries
 	*/
-	public function __construct()
+	public function __construct($config = 'rest')
 	{
 		header('Access-Control-Allow-Origin: *');
-		header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+    header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
 		parent::__construct();
 		$this->load->library('jsonbourne');        //logical class to deal with json
 		$this->load->model('userModel');        // data layer
@@ -33,20 +33,33 @@ class UserCtrl extends CI_Controller
     {
         $arrayOUsers = $this->userModel->getAllUsers(); // request to model
         //return a json
-				echo count($arrayOUsers) > 1 ?  $this->jsonbourne->forge(0, "Users exist", $arrayOUsers):  $this->jsonbourne->forge(1, "no user", null);
+				echo count($arrayOUsers) > 1 ?  $this->jsonbourne->forge(0, "Users", $arrayOUsers):  $this->jsonbourne->forge(1, "no user", null);
     }
 
 		/**
 		Request to check if an identifiant is free to use
 		Send a jsonArray of user as a response
 		*/
-		public function checkIdentifiant($identifiant)
+		public function checkIdentifiant()
 		{
 				log_message('info', "checkIdentifiant");
-				//$userData = $this->jsonbourne->decodeReqBody();
-				$arrayOUsers = $this->userModel->getOneUser($identifiant);
+				$userData = $this->jsonbourne->decodeReqBody();
+				$arrayOUsers = $this->userModel->getOneUser($userData['identifiant']);
 				//return a json
-				echo count($arrayOUsers) > 1 ?  $this->jsonbourne->forge(0, "Users exist", $arrayOUsers):  $this->jsonbourne->forge(1, "no user", null);
+				echo count($arrayOUsers) >= 1 ?  $this->jsonbourne->forge(0, "User already exists", $arrayOUsers):  $this->jsonbourne->forge(1, "user free to use", null);
+		}
+
+		/**
+		Request to check if the identifiant and password are from a valid account
+		Send a jsonArray of user as a response
+		*/
+		public function signin()
+		{
+				log_message('info', "signin");
+				$userData = $this->jsonbourne->decodeReqBody();
+				$arrayOUsers = $this->userModel->getAccount($userData['identifiant'], $userData['password']);
+				//return a json
+				echo count($arrayOUsers) >= 1 ?  $this->jsonbourne->forge(0, "User exists", $arrayOUsers):  $this->jsonbourne->forge(1, "user doesn't exit", null);
 		}
 
 		/* _________________________ POST _______________________ */
@@ -60,7 +73,7 @@ class UserCtrl extends CI_Controller
 					log_message('info', "userCtrl");
 					$userData = $this->jsonbourne->decodeReqBody();
 					$resultFromCreateANewUser = $this->userModel->create($userData);
-					echo count($resultFromCreateANewUser) > 1 ?  $this->jsonbourne->forge(0, "The user has been created", $resultFromCreateANewUser):  $this->jsonbourne->forge(1, "error in the creation of user", null);
+					echo count($resultFromCreateANewUser) >= 1 ?  $this->jsonbourne->forge(0, "The user has been created", $resultFromCreateANewUser):  $this->jsonbourne->forge(1, "error in the creation of user", null);
 		}
 
 

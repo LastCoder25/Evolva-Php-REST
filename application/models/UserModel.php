@@ -28,17 +28,33 @@ class UserModel extends CI_Model
     Retrieve one user
     @return query array of user
     */
-    public function getOneUser($data)
+    public function getOneUser($identifiant)
     {
         log_message('info', "getOneUser");
+        log_message('info', $identifiant);
         $this -> db -> select('identifiant');
         $this -> db -> from('user');
-        $this -> db -> where('identifiant', $data['identifiant']);
+        $this -> db -> where('identifiant', $identifiant);
+
+        $query = $this -> db -> get();
+        return $query->result();
+    }
+
+    /**
+    Retrieve one account
+    @return query array of user
+    */
+    public function getAccount($identifiant, $password)
+    {
+        log_message('info', "getAccount");
+        $this -> db -> select('*');
+        $this -> db -> from('user');
+        $this -> db -> where('identifiant', $identifiant);
+        $this -> db -> where('password', $password);
 
         $query = $this -> db -> get();
 
-        if($query -> num_rows() >= 1) return $query->result();
-        else return false;
+        return $query->result();
     }
 
     #* _________________ CREATE __________________ */
