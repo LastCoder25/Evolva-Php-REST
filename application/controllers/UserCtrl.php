@@ -70,10 +70,24 @@ class UserCtrl extends CI_Controller
 		*/
 		public function createUser()
 		{
-					log_message('info', "userCtrl");
+					log_message('info', "userCtrl - createUser");
 					$userData = $this->jsonbourne->decodeReqBody();
 					$resultFromCreateANewUser = $this->userModel->create($userData);
 					echo count($resultFromCreateANewUser) >= 1 ?  $this->jsonbourne->forge(0, "The user has been created", $resultFromCreateANewUser):  $this->jsonbourne->forge(1, "error in the creation of user", null);
+		}
+
+		/* _________________________ PUT _______________________ */
+		/**
+			Modify a user
+			Json has been passed in request body with user data
+			Send a json to confirm the creation of the company
+		*/
+		public function modifyUser()
+		{
+					log_message('info', "userCtrl - modifyUser");
+					$userData = $this->jsonbourne->decodeReqBody();
+					$resultFromCreateANewUser = $this->userModel->modify($userData);
+					echo count($resultFromCreateANewUser) >= 1 ?  $this->jsonbourne->forge(0, "The user has been updated", $resultFromCreateANewUser):  $this->jsonbourne->forge(1, "error in the update of user", null);
 		}
 
 

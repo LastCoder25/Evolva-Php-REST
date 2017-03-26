@@ -72,4 +72,21 @@ class UserModel extends CI_Model
         return $this->db->insert('User');
     }
 
+    #* _________________ MODIFY __________________ */
+    /**
+    Modify a user
+    @params $data Array of data received and decode from the json
+    */
+    public function modify($data)
+    {
+        $sql = "UPDATE user SET identifiant=?, firstname=?, lastname=?, birthday=?, mail=?, address=?, city=?, sexe=?, volunteer=? WHERE idUser=?";
+        return $this->db->query($sql, array($data['identifiant'], $data['firstname'], $data['lastname'], $data['birthday'], $data['mail'], $data['address'], $data['city'], $data['sexe'], $data['volunteer'] , $data['idUser']));
+        // if (isset($data['identifiant'])) $this->db->put('identifiant', $data['identifiant']);
+        // if (isset($data['firstname'])) $this->db->put('firstname', $data['firstname']);
+        // if (isset($data['lastname'])) $this->db->put('lastname', $data['lastname']);
+        // if (isset($data['password'])) $this->db->put('password', $data['password']);
+        // if (isset($data['accountCreationDate'])) $this->db->set ('accountCreationDate', 'NOW()', FALSE);
+        // return $this->db->insert('User');
+    }
+
 }

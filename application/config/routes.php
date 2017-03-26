@@ -13,7 +13,8 @@ $route['translate_uri_dashes'] = FALSE;
 */
 /* USER routes */
 $route['user']['GET'] = 'userCtrl/getUsers';
-$route['user']['POST'] = 'userCtrl/createUser';
+$route['user/create']['POST'] = 'userCtrl/createUser';
+$route['user/update']['POST'] = 'userCtrl/modifyUser';
 $route['user/check']['POST'] = 'userCtrl/checkIdentifiant';
 $route['user/signin']['POST'] = 'userCtrl/signin';
 // $route['user/check/(:)']['GET'] = 'userCtrl/getUser';
