@@ -4,12 +4,12 @@ INSERT INTO status (status, depositeCommission, finalCommission) VALUES ("Béné
 INSERT INTO status (status, depositeCommission, finalCommission) VALUES ("Client", 2, 20);
 
 /* TABLE User */
-INSERT INTO user (identifiant, password, firstname, lastname, sexe, accountCreationDate, idStatus)
-VALUES("Maguy", "mag", "Maguy", "Bachere", "Femme", now(), 1);
-INSERT INTO user (identifiant, password, firstname, lastname, sexe, accountCreationDate, idStatus)
-VALUES("Béatrice", "bea", "Béatrice", "Machin", "Femme", now(), 2);
-INSERT INTO user (identifiant, password, firstname, lastname, sexe, accountCreationDate, idStatus)
-VALUES("Maxime", "max", "Maxime", "Bidule", "Homme", now(), 3);
+INSERT INTO user (identifiant, password, firstname, lastname, sexe, accountCreationDate)
+VALUES("Maguy", "mag", "Maguy", "Bachere", "Femme", now());
+INSERT INTO user (identifiant, password, firstname, lastname, sexe, accountCreationDate)
+VALUES("Béatrice", "bea", "Béatrice", "Machin", "Femme", now());
+INSERT INTO user (identifiant, password, firstname, lastname, sexe, accountCreationDate)
+VALUES("Maxime", "max", "Maxime", "Bidule", "Homme", now());
 
 /* TABLE Type */
 INSERT INTO type (type) VALUES ("Vêtements");
@@ -57,3 +57,10 @@ INSERT INTO exchange (depositeFromDate, depositeByDate, sellFromDate, sellByDate
 VALUES ("2017-04-04", "2017-04-06", "2017-04-07", "2017-04-09", "2017-04-010", "2017-04-13", "Vêtements");
 INSERT INTO exchange (depositeFromDate, depositeByDate, sellFromDate, sellByDate, withdrawalFromDate, withdrawalByDate, type)
 VALUES ("2017-11-02", "2017-11-05", "2017-11-06", "2017-11-08", "2017-11-09", "2017-11-15", "Jouets");
+
+/* TABLE fromStatus */
+INSERT INTO fromStatus (idUser, idExchange, idStatus) VALUES (1, 1, 2);
+INSERT INTO fromStatus (idUser, idExchange, idStatus) VALUES (2, 1, 2);
+INSERT INTO fromStatus (idUser, idExchange, idStatus) VALUES (1, 2, 2);
+INSERT INTO fromStatus (idUser, idExchange, idStatus) VALUES (3, 2, 2);
+INSERT INTO fromStatus (idUser, idExchange, idStatus) VALUES (3, 3, 2);

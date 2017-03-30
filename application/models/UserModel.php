@@ -68,7 +68,8 @@ class UserModel extends CI_Model
         if (isset($data['firstname'])) $this->db->set('firstname', $data['firstname']);
         if (isset($data['lastname'])) $this->db->set('lastname', $data['lastname']);
         if (isset($data['password'])) $this->db->set('password', $data['password']);
-        //if (isset($data['accountCreationDate'])) $this->db->set ('accountCreationDate', 'NOW()', FALSE);
+        if (isset($data['active'])) $this->db->set('active', "true");
+        $this->db->set ('accountCreationDate', 'NOW()', FALSE);
         return $this->db->insert('User');
     }
 
@@ -79,8 +80,10 @@ class UserModel extends CI_Model
     */
     public function modify($data)
     {
-        $sql = "UPDATE user SET identifiant=?, firstname=?, lastname=?, birthday=?, mail=?, address=?, city=?, sexe=?, volunteer=? WHERE idUser=?";
-        return $this->db->query($sql, array($data['identifiant'], $data['firstname'], $data['lastname'], $data['birthday'], $data['mail'], $data['address'], $data['city'], $data['sexe'], $data['volunteer'] , $data['idUser']));
+        $this->db->where('idUser', $data['idUser']);
+        return $this->db->update('user', $data);
+        // $sql = "UPDATE user SET identifiant=?, firstname=?, lastname=?, birthday=?, mail=?, address=?, city=?, sexe=?, volunteer=? WHERE idUser=?";
+        // return $this->db->query($sql, array($data['identifiant'], $data['firstname'], $data['lastname'], $data['birthday'], $data['mail'], $data['address'], $data['city'], $data['sexe'], $data['volunteer'] , $data['idUser']));
         // if (isset($data['identifiant'])) $this->db->put('identifiant', $data['identifiant']);
         // if (isset($data['firstname'])) $this->db->put('firstname', $data['firstname']);
         // if (isset($data['lastname'])) $this->db->put('lastname', $data['lastname']);

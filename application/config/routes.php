@@ -22,7 +22,7 @@ $route['user/signin']['POST'] = 'userCtrl/signin';
 //$route['user/check']['GET'] = 'userCtrl/checkIdentifiant';
 
 /* EXCHANGE routes */
-$route['exchanges']['GET'] = 'exchangeCtrl/getExchanges';
+$route['exchanges/volunteer/(:num)']['GET'] = 'exchangeCtrl/getExchanges/$1';
 
 /* STATUS routes */
 $route['status']['GET'] = 'statusCtrl/getStatus';

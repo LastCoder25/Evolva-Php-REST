@@ -29,11 +29,11 @@ class ExchangeCtrl extends CI_Controller
     Request to get ALL getCompanies
     Send a jsonArray of companies as a response
     */
-    public function getExchanges()
+    public function getExchanges($idUser)
     {
-        $arrayOExchanges = $this->exchangeModel->getAllExchanges(); // request to model
-        //return a json
-				echo count($arrayOExchanges) > 1 ?  $this->jsonbourne->forge(0, "Exchanges exist", $arrayOExchanges):  $this->jsonbourne->forge(1, "no exchange", null);
-    }
+				log_message('info', "getExchanges");
+				$exchanges = $this->exchangeModel->getExchangesOfAVolunteer($idUser);
+				echo  $exchanges >= 1 ?  $this->jsonbourne->forge(0, "exchanges exists", null):  $this->jsonbourne->forge(1, "no exchanges for this volunteer", null);
+	}
 
 }
