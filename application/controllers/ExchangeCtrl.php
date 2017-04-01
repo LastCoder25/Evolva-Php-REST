@@ -25,15 +25,27 @@ class ExchangeCtrl extends CI_Controller
 	}
 	/* _________________________   GET ______________________ */
 
+		/**
+		Request to get ALL users
+		Send a jsonArray of users as a response
+		*/
+		public function getAllExchanges()
+		{
+				log_message('info', "ExchangeCtrl - getAllExchanges");
+				$arrayOExchanges = $this->exchangeModel->getAllExchanges(); // request to model
+				//return a json
+				echo count($arrayOExchanges) > 1 ?  $this->jsonbourne->forge(0, "Exchanges", $arrayOExchanges):  $this->jsonbourne->forge(1, "no exchange", null);
+		}
+
     /**
     Request to get ALL getCompanies
     Send a jsonArray of companies as a response
     */
     public function getExchanges($idUser)
     {
-				log_message('info', "getExchanges");
+				log_message('info', "ExchangeCtrl - getExchanges");
 				$exchanges = $this->exchangeModel->getExchangesOfAVolunteer($idUser);
-				echo  $exchanges >= 1 ?  $this->jsonbourne->forge(0, "exchanges exists", null):  $this->jsonbourne->forge(1, "no exchanges for this volunteer", null);
-	}
+				echo  $exchanges >= 1 ?  $this->jsonbourne->forge(0, "exchanges exists", $exchanges):  $this->jsonbourne->forge(1, "no exchanges for this volunteer", null);
+		}
 
 }

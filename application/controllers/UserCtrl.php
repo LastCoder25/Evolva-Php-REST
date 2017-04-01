@@ -26,7 +26,7 @@ class UserCtrl extends CI_Controller
 	/* _________________________   GET ______________________ */
 
     /**
-    Request to get ALL users
+    Request to get ALL
     Send a jsonArray of users as a response
     */
     public function getUsers()
@@ -42,11 +42,22 @@ class UserCtrl extends CI_Controller
 		*/
 		public function checkIdentifiant()
 		{
-				log_message('info', "checkIdentifiant");
+				log_message('info', "UserCtrl - checkIdentifiant");
 				$userData = $this->jsonbourne->decodeReqBody();
 				$arrayOUsers = $this->userModel->getOneUser($userData['identifiant']);
 				//return a json
 				echo count($arrayOUsers) >= 1 ?  $this->jsonbourne->forge(0, "User already exists", $arrayOUsers):  $this->jsonbourne->forge(1, "user free to use", null);
+		}
+
+		/**
+    Request to get ALL user free to be volunteer on an exchange
+    Send a jsonArray of companies as a response
+    */
+    public function freeToBeVolunteer($idExchange)
+    {
+				log_message('info', "UserCtrl - freeToBeVolunteer");
+				$users = $this->userModel->getUsersFreeToBeVolunteers($idExchange);
+				echo  $users >= 1 ?  $this->jsonbourne->forge(0, "users exists", $users):  $this->jsonbourne->forge(1, "no user for this exchange", null);
 		}
 
 		/**
@@ -55,7 +66,7 @@ class UserCtrl extends CI_Controller
 		*/
 		public function signin()
 		{
-				log_message('info', "signin");
+				log_message('info', "UserCtrl - signin");
 				$userData = $this->jsonbourne->decodeReqBody();
 				$arrayOUsers = $this->userModel->getAccount($userData['identifiant'], $userData['password']);
 				//return a json
@@ -70,7 +81,7 @@ class UserCtrl extends CI_Controller
 		*/
 		public function createUser()
 		{
-					log_message('info', "userCtrl - createUser");
+					log_message('info', "UserCtrl - createUser");
 					$userData = $this->jsonbourne->decodeReqBody();
 					$resultFromCreateANewUser = $this->userModel->create($userData);
 					echo count($resultFromCreateANewUser) >= 1 ?  $this->jsonbourne->forge(0, "The user has been created", $resultFromCreateANewUser):  $this->jsonbourne->forge(1, "error in the creation of user", null);
@@ -84,7 +95,7 @@ class UserCtrl extends CI_Controller
 		*/
 		public function modifyUser()
 		{
-					log_message('info', "userCtrl - modifyUser");
+					log_message('info', "UserCtrl - modifyUser");
 					$userData = $this->jsonbourne->decodeReqBody();
 					$resultFromCreateANewUser = $this->userModel->modify($userData);
 					echo count($resultFromCreateANewUser) >= 1 ?  $this->jsonbourne->forge(0, "The user has been updated", $resultFromCreateANewUser):  $this->jsonbourne->forge(1, "error in the update of user", null);

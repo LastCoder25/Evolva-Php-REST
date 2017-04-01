@@ -13,16 +13,17 @@ $route['translate_uri_dashes'] = FALSE;
 */
 /* USER routes */
 $route['user']['GET'] = 'userCtrl/getUsers';
+$route['user/freeToBeVolunteer/(:num)']['GET'] = 'userCtrl/freeToBeVolunteer/$1';
 $route['user/create']['POST'] = 'userCtrl/createUser';
 $route['user/update']['POST'] = 'userCtrl/modifyUser';
 $route['user/check']['POST'] = 'userCtrl/checkIdentifiant';
 $route['user/signin']['POST'] = 'userCtrl/signin';
-// $route['user/check/(:)']['GET'] = 'userCtrl/getUser';
-// $route['company/check/(:num)']['POST'] = 'companyCtrl/checkCompany/$1';
-//$route['user/check']['GET'] = 'userCtrl/checkIdentifiant';
 
 /* EXCHANGE routes */
+$route['exchanges']['GET'] = 'exchangeCtrl/getAllExchanges';
 $route['exchanges/volunteer/(:num)']['GET'] = 'exchangeCtrl/getExchanges/$1';
 
-/* STATUS routes */
-$route['status']['GET'] = 'statusCtrl/getStatus';
+/* FROMSTATUS routes */
+$route['fromStatus/(:num)']['GET'] = 'fromStatusCtrl/getVolunteersOfExchange/$1';
+$route['fromStatus']['POST'] = 'fromStatusCtrl/addVolunteer';
+$route['fromStatus/removeVolunteer']['POST'] = 'fromStatusCtrl/removeVolunteer';

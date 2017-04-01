@@ -25,6 +25,18 @@ class UserModel extends CI_Model
     }
 
     /**
+    Retrieve all users free to be volunteers of exchange
+    @return query array of user
+    */
+    public function getUsersFreeToBeVolunteers($idExchange)
+    {
+      log_message('info', "getUsersFreeToBeVolunteers");
+      $query = $this->db->query("CALL getUsersFreeToBeVolunteers($idExchange)");
+      if($query -> num_rows() >= 1) return $query->result();
+      else return false;
+    }
+
+    /**
     Retrieve one user
     @return query array of user
     */
@@ -47,7 +59,7 @@ class UserModel extends CI_Model
     public function getAccount($identifiant, $password)
     {
         log_message('info', "getAccount");
-        $this -> db -> select('*');
+        $this -> db -> select('idUser, firstname, lastname');
         $this -> db -> from('user');
         $this -> db -> where('identifiant', $identifiant);
         $this -> db -> where('password', $password);
@@ -82,14 +94,6 @@ class UserModel extends CI_Model
     {
         $this->db->where('idUser', $data['idUser']);
         return $this->db->update('user', $data);
-        // $sql = "UPDATE user SET identifiant=?, firstname=?, lastname=?, birthday=?, mail=?, address=?, city=?, sexe=?, volunteer=? WHERE idUser=?";
-        // return $this->db->query($sql, array($data['identifiant'], $data['firstname'], $data['lastname'], $data['birthday'], $data['mail'], $data['address'], $data['city'], $data['sexe'], $data['volunteer'] , $data['idUser']));
-        // if (isset($data['identifiant'])) $this->db->put('identifiant', $data['identifiant']);
-        // if (isset($data['firstname'])) $this->db->put('firstname', $data['firstname']);
-        // if (isset($data['lastname'])) $this->db->put('lastname', $data['lastname']);
-        // if (isset($data['password'])) $this->db->put('password', $data['password']);
-        // if (isset($data['accountCreationDate'])) $this->db->set ('accountCreationDate', 'NOW()', FALSE);
-        // return $this->db->insert('User');
     }
 
 }

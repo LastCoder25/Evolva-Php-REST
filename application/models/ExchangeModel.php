@@ -15,13 +15,7 @@ class ExchangeModel extends CI_Model
     */
     public function getAllExchanges()
     {
-        // $this -> db -> select('*');
-        // $this -> db -> from('exchange');
-        //
-        // $query = $this -> db -> get();
-        //
-        // if($query -> num_rows() >= 1) return $query->result();
-        // else return false;
+        log_message('info', "model - getAllExchanges");
         $query = $this->db->query("CALL getAllExchanges()");
         if($query -> num_rows() >= 1) return $query->result();
         else return false;
@@ -33,10 +27,8 @@ class ExchangeModel extends CI_Model
     */
     public function getExchangesOfAVolunteer($idUser)
     {
-      log_message('info', "getExchangesOfAVolunteer");
-      //log_message('info', $idUser);
+      log_message('info', "model - getExchangesOfAVolunteer");
       $query = $this->db->query("CALL getAllExchangesOfVolunteer($idUser)");
-      //log_message('info', $query->result());
       if($query -> num_rows() >= 1) return $query->result();
       else return false;
     }
