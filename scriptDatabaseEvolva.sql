@@ -7,11 +7,9 @@ USE evolva;
 #------------------------------------------------------------
 
 CREATE TABLE Articles(
-        idArticle     int (11) Auto_increment  NOT NULL ,
-        description   Varchar (100) ,
-        inventoryDate Datetime NOT NULL ,
-        idUser        Int NOT NULL ,
-        type          Varchar (10) NOT NULL ,
+        idArticle   int (11) Auto_increment  NOT NULL ,
+        description Varchar (100) ,
+        type        Varchar (10) NOT NULL ,
         PRIMARY KEY (idArticle )
 )ENGINE=InnoDB;
 
@@ -38,11 +36,11 @@ CREATE TABLE Exchange(
 #------------------------------------------------------------
 
 CREATE TABLE Clothes(
+        size          Varchar (10) ,
+        color         Varchar (50) ,
+        brand         Varchar (50) ,
         idArticle     Int NOT NULL ,
-        typeOfClothes Varchar (25) NOT NULL ,
-        size          Varchar (10) NOT NULL ,
-        color         Varchar (10) NOT NULL ,
-        brand         Varchar (50) NOT NULL ,
+        typeOfClothes Varchar (100) NOT NULL ,
         category      Varchar (15) NOT NULL ,
         PRIMARY KEY (idArticle )
 )ENGINE=InnoDB;
@@ -67,15 +65,6 @@ CREATE TABLE User(
         idUser              int (11) Auto_increment  NOT NULL ,
         identifiant         Varchar (20) NOT NULL ,
         password            Varchar (20) NOT NULL ,
-        firstname           Varchar (50) NOT NULL ,
-        lastname            Varchar (50) NOT NULL ,
-        birthday            Date ,
-        sexe                Varchar (25) NOT NULL ,
-        mail                Varchar (100) ,
-        address             Varchar (100) ,
-        city                Varchar (100) ,
-        active              Bool ,
-        accountCreationDate Datetime NOT NULL ,
         PRIMARY KEY (idUser ) ,
         UNIQUE (identifiant )
 )ENGINE=InnoDB;
@@ -86,28 +75,8 @@ CREATE TABLE User(
 #------------------------------------------------------------
 
 CREATE TABLE TypeOfClothes(
-        typeOfClothes Varchar (25) NOT NULL ,
+        typeOfClothes Varchar (100) NOT NULL ,
         PRIMARY KEY (typeOfClothes )
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
-# Table: Color
-#------------------------------------------------------------
-
-CREATE TABLE Color(
-        color Varchar (10) NOT NULL ,
-        PRIMARY KEY (color )
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
-# Table: Brand
-#------------------------------------------------------------
-
-CREATE TABLE Brand(
-        brand Varchar (50) NOT NULL ,
-        PRIMARY KEY (brand )
 )ENGINE=InnoDB;
 
 
@@ -128,16 +97,6 @@ CREATE TABLE TypeOfToy(
 CREATE TABLE Category(
         category Varchar (15) NOT NULL ,
         PRIMARY KEY (category )
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
-# Table: Size
-#------------------------------------------------------------
-
-CREATE TABLE Size(
-        size Varchar (10) NOT NULL ,
-        PRIMARY KEY (size )
 )ENGINE=InnoDB;
 
 
@@ -166,6 +125,34 @@ CREATE TABLE Status(
 
 
 #------------------------------------------------------------
+# Table: Admin
+#------------------------------------------------------------
+
+CREATE TABLE Admin(
+        idUser Int NOT NULL ,
+        PRIMARY KEY (idUser )
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: Participant
+#------------------------------------------------------------
+
+CREATE TABLE Participant(
+        firstname           Varchar (50) NOT NULL ,
+        lastname            Varchar (50) NOT NULL ,
+        birthday            Date ,
+        mail                Varchar (100) ,
+        address             Varchar (100) ,
+        city                Varchar (100) ,
+        sexe                Varchar (25) ,
+        accountCreationDate Datetime NOT NULL ,
+        idUser              Int NOT NULL ,
+        PRIMARY KEY (idUser )
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
 # Table: deposite
 #------------------------------------------------------------
 
@@ -177,7 +164,8 @@ CREATE TABLE deposite(
         depositeDate       Datetime NOT NULL ,
         idExchange         Int NOT NULL ,
         idArticle          Int NOT NULL ,
-        PRIMARY KEY (idExchange ,idArticle )
+        idUser             Int NOT NULL ,
+        PRIMARY KEY (idExchange ,idArticle ,idUser )
 )ENGINE=InnoDB;
 
 
@@ -186,28 +174,28 @@ CREATE TABLE deposite(
 #------------------------------------------------------------
 
 CREATE TABLE fromStatus(
-        idUser     Int NOT NULL ,
         idStatus   Int NOT NULL ,
         idExchange Int NOT NULL ,
-        PRIMARY KEY (idUser ,idStatus ,idExchange )
+        idUser     Int NOT NULL ,
+        PRIMARY KEY (idStatus ,idExchange ,idUser )
 )ENGINE=InnoDB;
 
-ALTER TABLE Articles ADD CONSTRAINT FK_Articles_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE Articles ADD CONSTRAINT FK_Articles_type FOREIGN KEY (type) REFERENCES Type(type);
 ALTER TABLE Exchange ADD CONSTRAINT FK_Exchange_type FOREIGN KEY (type) REFERENCES Type(type);
 ALTER TABLE Clothes ADD CONSTRAINT FK_Clothes_idArticle FOREIGN KEY (idArticle) REFERENCES Articles(idArticle);
 ALTER TABLE Clothes ADD CONSTRAINT FK_Clothes_typeOfClothes FOREIGN KEY (typeOfClothes) REFERENCES TypeOfClothes(typeOfClothes);
-ALTER TABLE Clothes ADD CONSTRAINT FK_Clothes_size FOREIGN KEY (size) REFERENCES Size(size);
-ALTER TABLE Clothes ADD CONSTRAINT FK_Clothes_color FOREIGN KEY (color) REFERENCES Color(color);
-ALTER TABLE Clothes ADD CONSTRAINT FK_Clothes_brand FOREIGN KEY (brand) REFERENCES Brand(brand);
 ALTER TABLE Clothes ADD CONSTRAINT FK_Clothes_category FOREIGN KEY (category) REFERENCES Category(category);
 ALTER TABLE Toy ADD CONSTRAINT FK_Toy_idArticle FOREIGN KEY (idArticle) REFERENCES Articles(idArticle);
 ALTER TABLE Toy ADD CONSTRAINT FK_Toy_typeOfToy FOREIGN KEY (typeOfToy) REFERENCES TypeOfToy(typeOfToy);
+ALTER TABLE Admin ADD CONSTRAINT FK_Admin_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
+ALTER TABLE Participant ADD CONSTRAINT FK_Participant_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE deposite ADD CONSTRAINT FK_deposite_idExchange FOREIGN KEY (idExchange) REFERENCES Exchange(idExchange);
 ALTER TABLE deposite ADD CONSTRAINT FK_deposite_idArticle FOREIGN KEY (idArticle) REFERENCES Articles(idArticle);
-ALTER TABLE fromStatus ADD CONSTRAINT FK_fromStatus_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
+ALTER TABLE deposite ADD CONSTRAINT FK_deposite_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE fromStatus ADD CONSTRAINT FK_fromStatus_idStatus FOREIGN KEY (idStatus) REFERENCES Status(idStatus);
 ALTER TABLE fromStatus ADD CONSTRAINT FK_fromStatus_idExchange FOREIGN KEY (idExchange) REFERENCES Exchange(idExchange);
+ALTER TABLE fromStatus ADD CONSTRAINT FK_fromStatus_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
+
 
 /* PROCEDURES STOCKEES */
 
@@ -234,8 +222,9 @@ CREATE PROCEDURE getVolunteersOfExchange(IN id INT)
 BEGIN
 	SELECT *
   FROM fromStatus
-  INNER JOIN user ON user.idUser = fromStatus.idUser
-  WHERE fromStatus.idExchange = id;
+  INNER JOIN participant ON participant.idUser = fromStatus.idUser
+  WHERE fromStatus.idExchange = id
+  AND fromStatus.idStatus = 2;
 END |
 
 /* GET all users free to be volunteers */
@@ -243,8 +232,8 @@ DELIMITER |
 CREATE PROCEDURE getUsersFreeToBeVolunteers(IN id INT)
 BEGIN
 	SELECT *
-  FROM user
-  WHERE user.idUser NOT IN (SELECT idUser
+  FROM participant
+  WHERE participant.idUser NOT IN (SELECT idUser
                             FROM fromStatus
                             WHERE fromStatus.idExchange = id);
 END |
@@ -254,4 +243,14 @@ DELIMITER |
 CREATE PROCEDURE removeVolunteerOfExchange(IN idUser INT, IN idExchange INT)
 BEGIN
 	DELETE FROM fromStatus WHERE fromStatus.idUser = idUser AND fromStatus.idExchange = idExchange;
+END |
+
+/* GetAccount of user */
+DELIMITER |
+CREATE PROCEDURE getAccount(IN ident VARCHAR(20), IN pass VARCHAR(20))
+BEGIN
+	SELECT idUser, identifiant, firstname, lastname, mail, sexe, address, city, birthday
+  	FROM user
+  	INNER JOIN participant ON participant.idUser = user.idUser
+  	WHERE user.identifiant = ident AND user.password = pass;
 END |
