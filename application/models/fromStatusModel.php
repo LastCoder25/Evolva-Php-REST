@@ -43,9 +43,7 @@ class FromStatusModel extends CI_Model
     {
       log_message('info', "remove");
       $idUser = $data['idUser'];
-      log_message('info', $idUser);
       $idExchange = $data['idExchange'];
-      log_message('info', $idExchange);
       return $this->db->query("CALL removeVolunteerOfExchange($idUser, $idExchange)");
       //if($query -> num_rows() >= 1) return $query->result();
       //else return false;

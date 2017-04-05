@@ -43,7 +43,6 @@ class UserModel extends CI_Model
     public function getOneUser($identifiant)
     {
         log_message('info', "getOneUser");
-        log_message('info', $identifiant);
         $this -> db -> select('identifiant');
         $this -> db -> from('user');
         $this -> db -> where('identifiant', $identifiant);

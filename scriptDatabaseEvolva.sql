@@ -206,21 +206,51 @@ BEGIN
 	SELECT * FROM exchange;
 END |
 
-/* GET all exchanges */
+/* GET all exchanges of volunteer */
 DELIMITER |
 CREATE PROCEDURE getAllExchangesOfVolunteer(IN id INT)
 BEGIN
 	SELECT * FROM exchange
   WHERE idExchange IN (SELECT idExchange
                        FROM fromStatus
-                       WHERE fromStatus.idUser = id);
+                       WHERE fromStatus.idUser = id) AND exchange.withdrawalByDate >= NOW();
+END |
+
+/* GET all ended exchanges of volunteer */
+DELIMITER |
+CREATE PROCEDURE getAllEndedExchangesOfVolunteer(IN id INT)
+BEGIN
+	SELECT * FROM exchange
+  WHERE idExchange IN (SELECT idExchange
+                       FROM fromStatus
+                       WHERE fromStatus.idUser = id) AND exchange.withdrawalByDate < NOW();
+END |
+
+/* GET all exchanges of non volunteer */
+DELIMITER |
+CREATE PROCEDURE getAllExchangesOfNonVolunteer(IN id INT)
+BEGIN
+	SELECT * FROM exchange
+  WHERE idExchange NOT IN (SELECT idExchange
+                       FROM fromStatus
+                       WHERE fromStatus.idUser = id) AND exchange.withdrawalByDate >= NOW();
+END |
+
+/* GET all ended exchanges of volunteer */
+DELIMITER |
+CREATE PROCEDURE getAllEndedExchangesOfNonVolunteer(IN id INT)
+BEGIN
+	SELECT * FROM exchange
+  WHERE idExchange NOT IN (SELECT idExchange
+                       FROM fromStatus
+                       WHERE fromStatus.idUser = id) AND exchange.withdrawalByDate < NOW();
 END |
 
 /* GET all volunteers */
 DELIMITER |
 CREATE PROCEDURE getVolunteersOfExchange(IN id INT)
 BEGIN
-	SELECT *
+	SELECT participant.idUser, participant.firstname, participant.lastname
   FROM fromStatus
   INNER JOIN participant ON participant.idUser = fromStatus.idUser
   WHERE fromStatus.idExchange = id
@@ -231,7 +261,7 @@ END |
 DELIMITER |
 CREATE PROCEDURE getUsersFreeToBeVolunteers(IN id INT)
 BEGIN
-	SELECT *
+	SELECT participant.idUser, participant.firstname, participant.lastname
   FROM participant
   WHERE participant.idUser NOT IN (SELECT idUser
                             FROM fromStatus
@@ -253,4 +283,25 @@ BEGIN
   	FROM user
   	INNER JOIN participant ON participant.idUser = user.idUser
   	WHERE user.identifiant = ident AND user.password = pass;
+END |
+
+/* Get all articles of user on Exchange */
+DELIMITER |
+CREATE PROCEDURE getArticlesOfUserOnExchange(IN idUser INT, IN idExchange INT)
+BEGIN
+	SELECT *
+  FROM deposite
+  INNER JOIN articles ON articles.idArticle = deposite.idArticle
+  INNER JOIN clothes ON clothes.idArticle = articles.idArticle
+  WHERE deposite.idUser = idUser
+    AND deposite.idExchange = idExchange;
+END |
+
+/* Update Article */
+DELIMITER |
+CREATE PROCEDURE updateArticle(IN idUser INT, IN idExchange INT, IN idArticle INT, IN price FLOAT, IN description VARCHAR(100), IN registrationStatus VARCHAR(25))
+BEGIN
+	UPDATE deposite
+  SET deposite.price = price, deposite.registrationStatus = registrationStatus
+  WHERE deposite.idUser = idUser AND deposite.idExchange = idExchange AND deposite.idArticle = idArticle;
 END |

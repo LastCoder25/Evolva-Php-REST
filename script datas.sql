@@ -57,6 +57,8 @@ INSERT INTO typeOfToy (typeOfToy) VALUES ("Jeu de cartes");
 
 /* TABLE Exchange */
 INSERT INTO exchange (depositeFromDate, depositeByDate, sellFromDate, sellByDate, withdrawalFromDate, withdrawalByDate, type)
+VALUES ("2017-02-02", "2017-02-05", "2017-02-06", "2017-02-08", "2017-02-09", "2017-02-15", "Vêtements");
+INSERT INTO exchange (depositeFromDate, depositeByDate, sellFromDate, sellByDate, withdrawalFromDate, withdrawalByDate, type)
 VALUES ("2017-07-02", "2017-07-05", "2017-07-06", "2017-07-08", "2017-07-09", "2017-07-15", "Vêtements");
 INSERT INTO exchange (depositeFromDate, depositeByDate, sellFromDate, sellByDate, withdrawalFromDate, withdrawalByDate, type)
 VALUES ("2017-07-02", "2017-07-05", "2017-07-06", "2017-07-08", "2017-07-09", "2017-07-15", "Jouets");
@@ -67,6 +69,8 @@ VALUES ("2017-11-02", "2017-11-05", "2017-11-06", "2017-11-08", "2017-11-09", "2
 
 /* TABLE fromStatus */
 INSERT INTO fromStatus (idUser, idExchange, idStatus) VALUES (2, 1, 2);
+INSERT INTO fromStatus (idUser, idExchange, idStatus) VALUES (2, 2, 2);
+INSERT INTO fromStatus (idUser, idExchange, idStatus) VALUES (2, 3, 2);
 INSERT INTO fromStatus (idUser, idExchange, idStatus) VALUES (4, 1, 2);
 INSERT INTO fromStatus (idUser, idExchange, idStatus) VALUES (3, 2, 2);
 INSERT INTO fromStatus (idUser, idExchange, idStatus) VALUES (3, 3, 2);

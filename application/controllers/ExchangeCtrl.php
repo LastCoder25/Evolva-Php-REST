@@ -41,10 +41,43 @@ class ExchangeCtrl extends CI_Controller
     Request to get ALL getCompanies
     Send a jsonArray of companies as a response
     */
-    public function getExchanges($idUser)
+    public function getExchangesOfVolunteer($idUser)
     {
 				log_message('info', "ExchangeCtrl - getExchanges");
 				$exchanges = $this->exchangeModel->getExchangesOfAVolunteer($idUser);
+				echo  $exchanges >= 1 ?  $this->jsonbourne->forge(0, "exchanges exists", $exchanges):  $this->jsonbourne->forge(1, "no exchanges for this volunteer", null);
+		}
+
+		/**
+		Request to get ALL getCompanies
+		Send a jsonArray of companies as a response
+		*/
+		public function getExchangesOfNonVolunteer($idUser)
+		{
+				log_message('info', "ExchangeCtrl - getExchanges");
+				$exchanges = $this->exchangeModel->getExchangesOfANonVolunteer($idUser);
+				echo  $exchanges >= 1 ?  $this->jsonbourne->forge(0, "exchanges exists", $exchanges):  $this->jsonbourne->forge(1, "no exchanges for this volunteer", null);
+		}
+
+		/**
+		Request to get ALL getCompanies
+		Send a jsonArray of companies as a response
+		*/
+		public function getEndedExchangesOfVolunteer($idUser)
+		{
+				log_message('info', "ExchangeCtrl - getEndedExchangesOfVolunteer");
+				$exchanges = $this->exchangeModel->getEndedExchangesOfAVolunteer($idUser);
+				echo  $exchanges >= 1 ?  $this->jsonbourne->forge(0, "exchanges exists", $exchanges):  $this->jsonbourne->forge(1, "no exchanges for this volunteer", null);
+		}
+
+		/**
+		Request to get ALL getCompanies
+		Send a jsonArray of companies as a response
+		*/
+		public function getEndedExchangesOfNonVolunteer($idUser)
+		{
+				log_message('info', "ExchangeCtrl - getEndedExchangesOfNonVolunteer");
+				$exchanges = $this->exchangeModel->getEndedExchangesOfANonVolunteer($idUser);
 				echo  $exchanges >= 1 ?  $this->jsonbourne->forge(0, "exchanges exists", $exchanges):  $this->jsonbourne->forge(1, "no exchanges for this volunteer", null);
 		}
 

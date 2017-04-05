@@ -33,4 +33,40 @@ class ExchangeModel extends CI_Model
       else return false;
     }
 
+    /**
+    Retrieve all exchanges of a non volunteer
+    @return query array of exchanges
+    */
+    public function getExchangesOfANonVolunteer($idUser)
+    {
+      log_message('info', "model - getExchangesOfANonVolunteer");
+      $query = $this->db->query("CALL getAllExchangesOfNonVolunteer($idUser)");
+      if($query -> num_rows() >= 1) return $query->result();
+      else return false;
+    }
+
+    /**
+    Retrieve all exchanges of a volunteer
+    @return query array of exchanges
+    */
+    public function getEndedExchangesOfAVolunteer($idUser)
+    {
+      log_message('info', "model - getEndedExchangesOfAVolunteer");
+      $query = $this->db->query("CALL getAllEndedExchangesOfVolunteer($idUser)");
+      if($query -> num_rows() >= 1) return $query->result();
+      else return false;
+    }
+
+    /**
+    Retrieve all exchanges of a non volunteer
+    @return query array of exchanges
+    */
+    public function getEndedExchangesOfANonVolunteer($idUser)
+    {
+      log_message('info', "model - getEndedExchangesOfANonVolunteer");
+      $query = $this->db->query("CALL getAllEndedExchangesOfNonVolunteer($idUser)");
+      if($query -> num_rows() >= 1) return $query->result();
+      else return false;
+    }
+
 }
