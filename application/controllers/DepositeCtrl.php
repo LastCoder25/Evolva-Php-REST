@@ -49,4 +49,18 @@ class DepositeCtrl extends CI_Controller
 					echo count($resultUpdate) >= 1 ?  $this->jsonbourne->forge(0, "The article has been updated", $resultUpdate):  $this->jsonbourne->forge(1, "error in the update of the article", null);
 		}
 
+		/* _________________________ POST _______________________ */
+		/**
+			Create a new user
+			Json has been passed in request body with user data
+			Send a json to confirm the creation of the company
+		*/
+		public function createArticle()
+		{
+					log_message('info', "DepositeCtrl - createArticle");
+					$articleData = $this->jsonbourne->decodeReqBody();
+					$resultFromCreateANewArticle = $this->depositeModel->create($articleData);
+					echo count($resultFromCreateANewArticle) >= 1 ?  $this->jsonbourne->forge(0, "The user has been created", $resultFromCreateANewArticle):  $this->jsonbourne->forge(1, "error in the creation of user", null);
+		}
+
 }

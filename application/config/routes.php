@@ -29,6 +29,7 @@ $route['exchanges/notyetvolunteer/ended/(:num)']['GET'] = 'exchangeCtrl/getEnded
 /* EXCHANGE routes */
 $route['deposite/allOfUserOnExchange/(:num)/(:num)']['GET'] = 'depositeCtrl/getArticlesOfUserOnExchange/$1/$2';
 $route['deposite/update']['POST'] = 'depositeCtrl/modifyArticle';
+$route['deposite/createArticle']['POST'] = 'depositeCtrl/createArticle';
 
 /* FROMSTATUS routes */
 $route['fromStatus/(:num)']['GET'] = 'fromStatusCtrl/getVolunteersOfExchange/$1';

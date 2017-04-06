@@ -57,4 +57,35 @@ class DepositeModel extends CI_Model
         return $this->db->update('clothes', $ddd);
     }
 
+    #* _________________ CREATE __________________ */
+    /**
+    Create a new article
+    @params $data Array of data received and decode from the json
+    */
+    public function create($data)
+    {
+        /* INSERT INTO Article */
+        if (isset($data['description']))  $this->db->set('description', $data['description']);
+        $this->db->set('type', "Vêtements");
+        $this->db->insert('articles');
+        $insert_id = $this->db->insert_id();
+
+        /* INSERT INTO Clothes */
+        $this->db->set('idArticle', $insert_id);
+        if (isset($data['size']))           $this->db->set('size',          $data['size']);
+        if (isset($data['color']))          $this->db->set('color',         $data['color']);
+        if (isset($data['brand']))          $this->db->set('brand',         $data['brand']);
+        if (isset($data['typeOfClothes']))  $this->db->set('typeOfClothes', $data['typeOfClothes']);
+        if (isset($data['category']))       $this->db->set('category',      $data['category']);
+        $this->db->insert('clothes');
+
+        /* INSERT INTO Deposite */
+        $this->db->set('idArticle', $insert_id);
+        if (isset($data['idExchange']))    $this->db->set('idExchange',   $data['idExchange']);
+        if (isset($data['idUser']))        $this->db->set('idUser',       $data['idUser']);
+        if (isset($data['price']))         $this->db->set('price',        $data['price']);
+        return $this->db->insert('deposite');
+
+    }
+
 }
