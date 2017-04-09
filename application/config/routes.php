@@ -19,6 +19,7 @@ $route['user/update']['POST'] = 'userCtrl/modifyUser';
 $route['user/check']['POST'] = 'userCtrl/checkIdentifiant';
 $route['user/signin']['POST'] = 'userCtrl/signin';
 $route['user/checkAdmin/(:num)']['GET'] = 'userCtrl/checkAdmin/$1';
+$route['user/getInfos/(:num)']['GET'] = 'userCtrl/getInfos/$1';
 
 /* EXCHANGE routes */
 $route['exchanges']['GET'] = 'exchangeCtrl/getAllExchanges';

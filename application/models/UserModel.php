@@ -58,11 +58,10 @@ class UserModel extends CI_Model
     public function getAccount($identifiant, $password)
     {
         log_message('info', "getAccount");
-        $this -> db -> select('User.idUser, User.identifiant, Participant.firstname, Participant.lastname, Participant.mail, Participant.sexe, Participant.address, Participant.city, Participant.birthday');
+        $this -> db -> select('idUser, identifiant');
         $this -> db -> from('User');
-        $this -> db -> join('Participant', 'Participant.idUser = User.idUser');
-        $this -> db -> where('User.identifiant', $identifiant);
-        $this -> db -> where('User.password', $password);
+        $this -> db -> where('identifiant', $identifiant);
+        $this -> db -> where('password', $password);
         $query = $this -> db -> get();
         return $query->result();
     }
@@ -76,6 +75,20 @@ class UserModel extends CI_Model
         log_message('info', "checkAdmin");
         $this -> db -> select('*');
         $this -> db -> from('Admin');
+        $this -> db -> where('idUser', $idUser);
+        $query = $this -> db -> get();
+        return $query->result();
+    }
+    
+       /**
+    Retrieve an admin
+    @return query array of user
+    */
+    public function getInfos($idUser)
+    {
+        log_message('info', "getInfos");
+        $this -> db -> select('*');
+        $this -> db -> from('admin');
         $this -> db -> where('idUser', $idUser);
         $query = $this -> db -> get();
         return $query->result();

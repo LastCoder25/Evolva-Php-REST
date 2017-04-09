@@ -9,7 +9,7 @@ class UserCtrl extends CI_Controller
 	public function __construct($config = 'rest')
 	{
 		header('Access-Control-Allow-Origin: *');
-    header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+                header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
 		parent::__construct();
 		$this->load->library('jsonbourne');        //logical class to deal with json
 		$this->load->model('userModel');        // data layer
@@ -57,8 +57,18 @@ class UserCtrl extends CI_Controller
 		{
 				log_message('info', "UserCtrl - checkAdmin");
 				$users = $this->userModel->checkAdmin($idUser);
-				log_message("info", $users);
-				echo  $users >= 1 ?  $this->jsonbourne->forge(0, "admin", true):  $this->jsonbourne->forge(1, "not admin", false);
+				echo count($users) >= 1 ?  $this->jsonbourne->forge(0, "admin", $users):  $this->jsonbourne->forge(1, "not admin", null);
+		}
+                
+                /**
+		Request to check if an identifiant is an admin
+		Send a jsonArray of user as a response
+		*/
+		public function getInfos($idUser)
+		{
+				log_message('info', "UserCtrl - getInfos");
+				$user = $this->userModel->getInfos($idUser);
+				echo count($user) >= 1 ?  $this->jsonbourne->forge(0, "user infos", $user):  $this->jsonbourne->forge(1, "no infos", null);
 		}
 
 		/**
