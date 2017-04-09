@@ -18,6 +18,7 @@ $route['user/create']['POST'] = 'userCtrl/createUser';
 $route['user/update']['POST'] = 'userCtrl/modifyUser';
 $route['user/check']['POST'] = 'userCtrl/checkIdentifiant';
 $route['user/signin']['POST'] = 'userCtrl/signin';
+$route['user/checkAdmin/(:num)']['GET'] = 'userCtrl/checkAdmin/$1';
 
 /* EXCHANGE routes */
 $route['exchanges']['GET'] = 'exchangeCtrl/getAllExchanges';
@@ -30,6 +31,7 @@ $route['exchanges/notyetvolunteer/ended/(:num)']['GET'] = 'exchangeCtrl/getEnded
 $route['deposite/allOfUserOnExchange/(:num)/(:num)']['GET'] = 'depositeCtrl/getArticlesOfUserOnExchange/$1/$2';
 $route['deposite/update']['POST'] = 'depositeCtrl/modifyArticle';
 $route['deposite/createArticle']['POST'] = 'depositeCtrl/createArticle';
+$route['deposite/deleteArticle']['POST'] = 'depositeCtrl/deleteArticle';
 
 /* FROMSTATUS routes */
 $route['fromStatus/(:num)']['GET'] = 'fromStatusCtrl/getVolunteersOfExchange/$1';

@@ -85,7 +85,33 @@ class DepositeModel extends CI_Model
         if (isset($data['idUser']))        $this->db->set('idUser',       $data['idUser']);
         if (isset($data['price']))         $this->db->set('price',        $data['price']);
         return $this->db->insert('deposite');
+    }
 
+    #* _________________ DELETE __________________ */
+    /**
+    Remove a volunteer
+    @params $data Array of data received and decode from the json
+    */
+    public function delete($data)
+    {
+      log_message('info', "DepositeModel - delete");
+      $idUser = $data['idUser'];
+      $idExchange = $data['idExchange'];
+      $idArticle = $data['idArticle'];
+      
+      /* DELETE from deposite */
+      $this -> db -> where('idUser', $idUser);
+      $this -> db -> where('idExchange', $idExchange);
+      $this -> db -> where('idArticle', $idArticle);
+      $this -> db -> delete('deposite');
+
+      /* DELETE from clothes */
+      $this -> db -> where('idArticle', $idArticle);
+      $this -> db -> delete('clothes');
+
+      /* DELETE from articles */
+      $this -> db -> where('idArticle', $idArticle);
+      $this -> db -> delete('articles');
     }
 
 }

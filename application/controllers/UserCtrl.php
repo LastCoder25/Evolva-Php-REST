@@ -50,6 +50,18 @@ class UserCtrl extends CI_Controller
 		}
 
 		/**
+		Request to check if an identifiant is an admin
+		Send a jsonArray of user as a response
+		*/
+		public function checkAdmin($idUser)
+		{
+				log_message('info', "UserCtrl - checkAdmin");
+				$users = $this->userModel->checkAdmin($idUser);
+				log_message("info", $users);
+				echo  $users >= 1 ?  $this->jsonbourne->forge(0, "admin", true):  $this->jsonbourne->forge(1, "not admin", false);
+		}
+
+		/**
     Request to get ALL user free to be volunteer on an exchange
     Send a jsonArray of companies as a response
     */

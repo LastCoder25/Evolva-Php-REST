@@ -63,7 +63,20 @@ class UserModel extends CI_Model
         $this -> db -> join('Participant', 'Participant.idUser = User.idUser');
         $this -> db -> where('User.identifiant', $identifiant);
         $this -> db -> where('User.password', $password);
+        $query = $this -> db -> get();
+        return $query->result();
+    }
 
+    /**
+    Retrieve an admin
+    @return query array of user
+    */
+    public function checkAdmin($idUser)
+    {
+        log_message('info', "checkAdmin");
+        $this -> db -> select('*');
+        $this -> db -> from('Admin');
+        $this -> db -> where('idUser', $idUser);
         $query = $this -> db -> get();
         return $query->result();
     }
