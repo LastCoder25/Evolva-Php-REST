@@ -88,7 +88,7 @@ class UserModel extends CI_Model
     {
         log_message('info', "getInfos");
         $this -> db -> select('*');
-        $this -> db -> from('admin');
+        $this -> db -> from('participant');
         $this -> db -> where('idUser', $idUser);
         $query = $this -> db -> get();
         return $query->result();
