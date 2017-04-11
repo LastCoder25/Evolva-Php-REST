@@ -25,16 +25,16 @@ class UserCtrl extends CI_Controller
 	}
 	/* _________________________   GET ______________________ */
 
-    /**
-    Request to get ALL
-    Send a jsonArray of users as a response
-    */
-    public function getUsers()
-    {
-        $arrayOUsers = $this->userModel->getAllUsers(); // request to model
-        //return a json
-				echo count($arrayOUsers) > 1 ?  $this->jsonbourne->forge(0, "Users", $arrayOUsers):  $this->jsonbourne->forge(1, "no user", null);
-    }
+        /**
+        Request to get ALL
+        Send a jsonArray of users as a response
+        */
+        public function getUsers()
+        {
+            $arrayOUsers = $this->userModel->getAllUsers(); // request to model
+            //return a json
+            echo count($arrayOUsers) > 1 ?  $this->jsonbourne->forge(0, "Users", $arrayOUsers):  $this->jsonbourne->forge(1, "no user", null);
+        }
 
 		/**
 		Request to check if an identifiant is free to use

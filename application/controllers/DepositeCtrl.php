@@ -35,6 +35,28 @@ class DepositeCtrl extends CI_Controller
 				$deposites = $this->depositeModel->getArticlesOfUserOnExchange($idUser, $idExchange);
 				echo  $deposites >= 1 ?  $this->jsonbourne->forge(0, "deposites exists", $deposites):  $this->jsonbourne->forge(1, "no deposites for this volunteer", null);
 		}
+                
+                /**
+                Request to get ALL articles of exchange
+                Send a jsonArray of companies as a response
+                */
+                public function getArticlesOnExchange($idExchange)
+                {
+				log_message('info', "DepositeCtrl - getArticlesOnExchange");
+				$deposites = $this->depositeModel->getArticlesOnExchange($idExchange);
+				echo  $deposites >= 1 ?  $this->jsonbourne->forge(0, "deposites exists", $deposites):  $this->jsonbourne->forge(1, "no deposites for this volunteer", null);
+		}
+                
+                /**
+                Request to get ALL articles of exchange
+                Send a jsonArray of companies as a response
+                */
+                public function amountByUser($idExchange)
+                {
+				log_message('info', "DepositeCtrl - amountByUser");
+				$deposites = $this->depositeModel->amountByUser($idExchange);
+				echo  $deposites >= 1 ?  $this->jsonbourne->forge(0, "deposites exists", $deposites):  $this->jsonbourne->forge(1, "no deposites for this volunteer", null);
+		}
 
 		/* _________________________ PUT _______________________ */
 		/**

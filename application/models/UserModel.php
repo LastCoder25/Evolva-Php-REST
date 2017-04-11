@@ -16,7 +16,8 @@ class UserModel extends CI_Model
     public function getAllUsers()
     {
         $this -> db -> select('*');
-        $this -> db -> from('user');
+        $this -> db -> from('participant');
+        $this -> db -> order_by('lastname', "asc");
 
         $query = $this -> db -> get();
 

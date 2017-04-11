@@ -18,6 +18,28 @@ class DepositeModel extends CI_Model
       $query = $this->db->query("CALL getArticlesOfUserOnExchange($idUser, $idExchange)");
       return $query->result();
     }
+    
+    /**
+    Retrieve all exchanges of a non volunteer
+    @return query array of exchanges
+    */
+    public function getArticlesOnExchange($idExchange)
+    {
+      log_message('info', "model - getArticlesOnExchange");
+      $query = $this->db->query("CALL getArticlesOnExchange($idExchange)");
+      return $query->result();
+    }
+    
+    /**
+    Retrieve all exchanges of a non volunteer
+    @return query array of exchanges
+    */
+    public function amountByUser($idExchange)
+    {
+      log_message('info', "model - amountByUser");
+      $query = $this->db->query("CALL getAmountByUser($idExchange)");
+      return $query->result();
+    }
 
     #* _________________ MODIFY __________________ */
     /**
@@ -33,6 +55,7 @@ class DepositeModel extends CI_Model
         $d['registrationStatus'] = $data['registrationStatus'];
         if (isset($data['price'])) $this->db->set('price', $data['price']);
         if (isset($data['registrationStatus'])) $this->db->set('registrationStatus', $data['registrationStatus']);
+        if (isset($data['finalStatus'])) $this->db->set('finalStatus', $data['finalStatus']);
         $this->db->where('idUser', $d['idUser']);
         $this->db->where('idExchange', $d['idExchange']);
         $this->db->where('idArticle', $d['idArticle']);
@@ -78,6 +101,20 @@ class DepositeModel extends CI_Model
         if (isset($data['typeOfClothes']))  $this->db->set('typeOfClothes', $data['typeOfClothes']);
         if (isset($data['category']))       $this->db->set('category',      $data['category']);
         $this->db->insert('clothes');
+        
+        /*
+        $this -> db -> select('*');
+        $this -> db -> from('fromStatus');
+        $this -> db -> where('idExchange', $data['idExchange']);
+        $this -> db -> where('idUser', $data['idUser']);
+        $query = $this -> db -> get();
+        if($query -> num_rows() = 0){
+            $this->db->set('idExchange', $data['idExchange']);
+            $this->db->set('idUser', $data['idUser']);
+            $this->db->set('idStatus', 2);
+            $this->db->insert('fromStatus');
+        };
+         */
 
         /* INSERT INTO Deposite */
         $this->db->set('idArticle', $insert_id);

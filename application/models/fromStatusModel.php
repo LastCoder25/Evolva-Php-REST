@@ -30,7 +30,7 @@ class FromStatusModel extends CI_Model
     {
         if (isset($data['idUser'])) $this->db->set('idUser', $data['idUser']);
         if (isset($data['idExchange'])) $this->db->set('idExchange', $data['idExchange']);
-        $this->db->set ('idStatus', 2, FALSE);
+        $this->db->set ('idStatus', 1, FALSE);
         return $this->db->insert('fromStatus');
     }
 

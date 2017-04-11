@@ -30,6 +30,8 @@ $route['exchanges/notyetvolunteer/ended/(:num)']['GET'] = 'exchangeCtrl/getEnded
 
 /* EXCHANGE routes */
 $route['deposite/allOfUserOnExchange/(:num)/(:num)']['GET'] = 'depositeCtrl/getArticlesOfUserOnExchange/$1/$2';
+$route['deposite/allOnExchange/(:num)']['GET'] = 'depositeCtrl/getArticlesOnExchange/$1';
+$route['deposite/amountByUser/(:num)']['GET'] = 'depositeCtrl/amountByUser/$1';
 $route['deposite/update']['POST'] = 'depositeCtrl/modifyArticle';
 $route['deposite/createArticle']['POST'] = 'depositeCtrl/createArticle';
 $route['deposite/deleteArticle']['POST'] = 'depositeCtrl/deleteArticle';

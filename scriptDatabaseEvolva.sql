@@ -254,7 +254,7 @@ BEGIN
   FROM fromStatus
   INNER JOIN participant ON participant.idUser = fromStatus.idUser
   WHERE fromStatus.idExchange = id
-  AND fromStatus.idStatus = 2;
+  AND fromStatus.idStatus = 1;
 END |
 
 /* GET all users free to be volunteers */
@@ -295,6 +295,29 @@ BEGIN
   INNER JOIN clothes ON clothes.idArticle = articles.idArticle
   WHERE deposite.idUser = idUser
     AND deposite.idExchange = idExchange;
+END |
+
+/* Get all articles on Exchange */
+DELIMITER |
+CREATE PROCEDURE getArticlesOnExchange(IN idExchange INT)
+BEGIN
+	SELECT *
+  FROM deposite
+  INNER JOIN articles ON articles.idArticle = deposite.idArticle
+  INNER JOIN clothes ON clothes.idArticle = articles.idArticle
+  WHERE deposite.idExchange = idExchange;
+END |
+
+/* Get all account on Exchange */
+DELIMITER |
+CREATE PROCEDURE getAmountByUser(IN idExchange INT)
+BEGIN
+  SELECT participant.lastname, participant.firstname, COUNT(price) as articlesNumber, SUM(price) as total
+  FROM deposite
+  INNER JOIN participant ON participant.idUser = deposite.idUser
+  WHERE deposite.idExchange = idExchange AND deposite.finalStatus = "Vendu"
+  GROUP BY deposite.idUser
+  ORDER BY participant.lastname;
 END |
 
 /* Update Article */
