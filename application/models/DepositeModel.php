@@ -31,7 +31,7 @@ class DepositeModel extends CI_Model
     }
     
     /**
-    Retrieve all exchanges of a non volunteer
+    Retrieve all accounts with amounts
     @return query array of exchanges
     */
     public function amountByUser($idExchange)
@@ -102,19 +102,18 @@ class DepositeModel extends CI_Model
         if (isset($data['category']))       $this->db->set('category',      $data['category']);
         $this->db->insert('clothes');
         
-        /*
+
         $this -> db -> select('*');
         $this -> db -> from('fromStatus');
         $this -> db -> where('idExchange', $data['idExchange']);
         $this -> db -> where('idUser', $data['idUser']);
         $query = $this -> db -> get();
-        if($query -> num_rows() = 0){
+        if($query -> num_rows() == 0){
             $this->db->set('idExchange', $data['idExchange']);
             $this->db->set('idUser', $data['idUser']);
             $this->db->set('idStatus', 2);
             $this->db->insert('fromStatus');
         };
-         */
 
         /* INSERT INTO Deposite */
         $this->db->set('idArticle', $insert_id);
@@ -149,6 +148,19 @@ class DepositeModel extends CI_Model
       /* DELETE from articles */
       $this -> db -> where('idArticle', $idArticle);
       $this -> db -> delete('articles');
+      
+        $this -> db -> select('*');
+        $this -> db -> from('deposite');
+        $this -> db -> where('idExchange', $data['idExchange']);
+        $this -> db -> where('idUser', $data['idUser']);
+        $query = $this -> db -> get();
+        if($query -> num_rows() == 0){
+            /* DELETE from fromStatus */
+            $this -> db -> where('idUser', $idUser);
+            $this -> db -> where('idExchange', $idExchange);
+            $this -> db -> where('idStatus', 2);
+            $this -> db -> delete('fromStatus');
+        };
     }
 
 }

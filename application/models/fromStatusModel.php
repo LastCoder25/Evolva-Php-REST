@@ -44,9 +44,19 @@ class FromStatusModel extends CI_Model
       log_message('info', "remove");
       $idUser = $data['idUser'];
       $idExchange = $data['idExchange'];
-      return $this->db->query("CALL removeVolunteerOfExchange($idUser, $idExchange)");
-      //if($query -> num_rows() >= 1) return $query->result();
-      //else return false;
+      $this->db->query("CALL removeVolunteerOfExchange($idUser, $idExchange)");
+      
+      $this -> db -> select('*');
+      $this -> db -> from('deposite');
+      $this -> db -> where('idExchange', $data['idExchange']);
+      $this -> db -> where('idUser', $data['idUser']);
+      $query = $this -> db -> get();
+      if($query -> num_rows() >= 1){
+          $this->db->set('idExchange', $data['idExchange']);
+          $this->db->set('idUser', $data['idUser']);
+          $this->db->set('idStatus', 2);
+          $this->db->insert('fromStatus');
+      };
     }
 
 }

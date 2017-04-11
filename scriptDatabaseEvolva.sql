@@ -312,9 +312,11 @@ END |
 DELIMITER |
 CREATE PROCEDURE getAmountByUser(IN idExchange INT)
 BEGIN
-  SELECT participant.lastname, participant.firstname, COUNT(price) as articlesNumber, SUM(price) as total
+  SELECT participant.lastname, participant.firstname, COUNT(price) as articlesNumber, SUM(price) as total, finalCommission, SUM(price)-(0.2*SUM(price)) as finalAmount
   FROM deposite
   INNER JOIN participant ON participant.idUser = deposite.idUser
+  INNER JOIN fromStatus ON fromStatus.idUser = deposite.idUser AND fromStatus.idExchange = deposite.idExchange
+  INNER JOIN Status ON Status.idStatus = fromStatus.idStatus
   WHERE deposite.idExchange = idExchange AND deposite.finalStatus = "Vendu"
   GROUP BY deposite.idUser
   ORDER BY participant.lastname;
