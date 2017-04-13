@@ -203,7 +203,8 @@ ALTER TABLE fromStatus ADD CONSTRAINT FK_fromStatus_idUser FOREIGN KEY (idUser) 
 DELIMITER |
 CREATE PROCEDURE getAllExchanges()
 BEGIN
-	SELECT * FROM exchange;
+    SELECT * FROM exchange
+    ORDER BY sellFromDate DESC;
 END |
 
 /* GET all exchanges of volunteer */
