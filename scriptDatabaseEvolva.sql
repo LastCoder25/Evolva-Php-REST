@@ -1,11 +1,9 @@
 DROP DATABASE IF EXISTS evolva;
 CREATE DATABASE IF NOT EXISTS evolva;
 USE evolva;
-
 #------------------------------------------------------------
 # Table: Articles
 #------------------------------------------------------------
-
 CREATE TABLE Articles(
         idArticle   int (11) Auto_increment  NOT NULL ,
         description Varchar (100) ,
@@ -13,11 +11,9 @@ CREATE TABLE Articles(
         PRIMARY KEY (idArticle )
 )ENGINE=InnoDB;
 
-
 #------------------------------------------------------------
 # Table: Exchange
 #------------------------------------------------------------
-
 CREATE TABLE Exchange(
         idExchange         int (11) Auto_increment  NOT NULL ,
         depositeFromDate   Date ,
@@ -30,11 +26,9 @@ CREATE TABLE Exchange(
         PRIMARY KEY (idExchange )
 )ENGINE=InnoDB;
 
-
 #------------------------------------------------------------
 # Table: Clothes
 #------------------------------------------------------------
-
 CREATE TABLE Clothes(
         size          Varchar (10) ,
         color         Varchar (50) ,
@@ -45,22 +39,18 @@ CREATE TABLE Clothes(
         PRIMARY KEY (idArticle )
 )ENGINE=InnoDB;
 
-
 #------------------------------------------------------------
 # Table: Toy
 #------------------------------------------------------------
-
 CREATE TABLE Toy(
         idArticle Int NOT NULL ,
         typeOfToy Varchar (25) NOT NULL ,
         PRIMARY KEY (idArticle )
 )ENGINE=InnoDB;
 
-
 #------------------------------------------------------------
 # Table: User
 #------------------------------------------------------------
-
 CREATE TABLE User(
         idUser              int (11) Auto_increment  NOT NULL ,
         identifiant         Varchar (20) NOT NULL ,
@@ -180,8 +170,16 @@ CREATE TABLE fromStatus(
         PRIMARY KEY (idStatus ,idExchange ,idUser )
 )ENGINE=InnoDB;
 
+CREATE TABLE Session(
+        idUser   int (11) NOT NULL ,
+        token Varchar (2000) NOT NULL
+)ENGINE=InnoDB;
+
 ALTER TABLE Articles ADD CONSTRAINT FK_Articles_type FOREIGN KEY (type) REFERENCES Type(type);
 ALTER TABLE Exchange ADD CONSTRAINT FK_Exchange_type FOREIGN KEY (type) REFERENCES Type(type);
+ALTER TABLE deposite ADD CONSTRAINT FK_deposite_idExchange FOREIGN KEY (idExchange) REFERENCES Exchange(idExchange);
+ALTER TABLE deposite ADD CONSTRAINT FK_deposite_idArticle FOREIGN KEY (idArticle) REFERENCES Articles(idArticle);
+ALTER TABLE deposite ADD CONSTRAINT FK_deposite_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE Clothes ADD CONSTRAINT FK_Clothes_idArticle FOREIGN KEY (idArticle) REFERENCES Articles(idArticle);
 ALTER TABLE Clothes ADD CONSTRAINT FK_Clothes_typeOfClothes FOREIGN KEY (typeOfClothes) REFERENCES TypeOfClothes(typeOfClothes);
 ALTER TABLE Clothes ADD CONSTRAINT FK_Clothes_category FOREIGN KEY (category) REFERENCES Category(category);
@@ -189,9 +187,6 @@ ALTER TABLE Toy ADD CONSTRAINT FK_Toy_idArticle FOREIGN KEY (idArticle) REFERENC
 ALTER TABLE Toy ADD CONSTRAINT FK_Toy_typeOfToy FOREIGN KEY (typeOfToy) REFERENCES TypeOfToy(typeOfToy);
 ALTER TABLE Admin ADD CONSTRAINT FK_Admin_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE Participant ADD CONSTRAINT FK_Participant_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
-ALTER TABLE deposite ADD CONSTRAINT FK_deposite_idExchange FOREIGN KEY (idExchange) REFERENCES Exchange(idExchange);
-ALTER TABLE deposite ADD CONSTRAINT FK_deposite_idArticle FOREIGN KEY (idArticle) REFERENCES Articles(idArticle);
-ALTER TABLE deposite ADD CONSTRAINT FK_deposite_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE fromStatus ADD CONSTRAINT FK_fromStatus_idStatus FOREIGN KEY (idStatus) REFERENCES Status(idStatus);
 ALTER TABLE fromStatus ADD CONSTRAINT FK_fromStatus_idExchange FOREIGN KEY (idExchange) REFERENCES Exchange(idExchange);
 ALTER TABLE fromStatus ADD CONSTRAINT FK_fromStatus_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);

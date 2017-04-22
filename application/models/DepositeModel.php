@@ -102,7 +102,7 @@ class DepositeModel extends CI_Model
         if (isset($data['category']))       $this->db->set('category',      $data['category']);
         $this->db->insert('clothes');
         
-
+        /* INSERT INTO fromStatus for the first article of the seller */
         $this -> db -> select('*');
         $this -> db -> from('fromStatus');
         $this -> db -> where('idExchange', $data['idExchange']);

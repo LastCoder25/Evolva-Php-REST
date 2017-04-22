@@ -27,8 +27,10 @@ $route['exchanges/volunteer/(:num)']['GET'] = 'exchangeCtrl/getExchangesOfVolunt
 $route['exchanges/notyetvolunteer/(:num)']['GET'] = 'exchangeCtrl/getExchangesOfNonVolunteer/$1';
 $route['exchanges/volunteer/ended/(:num)']['GET'] = 'exchangeCtrl/getEndedExchangesOfVolunteer/$1';
 $route['exchanges/notyetvolunteer/ended/(:num)']['GET'] = 'exchangeCtrl/getEndedExchangesOfNonVolunteer/$1';
+$route['exchanges/create']['POST'] = 'exchangeCtrl/create';
+$route['exchanges/update']['POST'] = 'exchangeCtrl/update';
 
-/* EXCHANGE routes */
+/* DEPOSITE & ARTICLES routes */
 $route['deposite/allOfUserOnExchange/(:num)/(:num)']['GET'] = 'depositeCtrl/getArticlesOfUserOnExchange/$1/$2';
 $route['deposite/allOnExchange/(:num)']['GET'] = 'depositeCtrl/getArticlesOnExchange/$1';
 $route['deposite/amountByUser/(:num)']['GET'] = 'depositeCtrl/amountByUser/$1';

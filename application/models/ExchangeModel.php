@@ -68,5 +68,41 @@ class ExchangeModel extends CI_Model
       if($query -> num_rows() >= 1) return $query->result();
       else return false;
     }
+    
+    #* _________________ CREATE __________________ */
+    /**
+    Create a new exchange
+    @params $data Array of data received and decode from the json
+    */
+    public function create($data)
+    {
+        /* INSERT INTO User */
+        if (isset($data['depositeFromDate']))   $this->db->set('depositeFromDate',      $data['depositeFromDate']);
+        if (isset($data['depositeByDate']))     $this->db->set('depositeByDate',        $data['depositeByDate']);
+        if (isset($data['sellFromDate']))       $this->db->set('sellFromDate',          $data['sellFromDate']);
+        if (isset($data['sellByDate']))         $this->db->set('sellByDate',            $data['sellByDate']);
+        if (isset($data['withdrawalFromDate'])) $this->db->set('withdrawalFromDate',    $data['withdrawalFromDate']);
+        if (isset($data['withdrawalByDate']))   $this->db->set('withdrawalByDate',      $data['withdrawalByDate']);
+        if (isset($data['type']))               $this->db->set('type',                  $data['type']);     
+        return $this->db->insert('Exchange');
+    }
+    
+    #* _________________ MODIFY __________________ */
+    /**
+    Modify an exchange
+    @params $data Array of data received and decode from the json
+    */
+    public function update($data)
+    {
+        if (isset($data['depositeFromDate']))   $this->db->set('depositeFromDate',      $data['depositeFromDate']);
+        if (isset($data['depositeByDate']))     $this->db->set('depositeByDate',        $data['depositeByDate']);
+        if (isset($data['sellFromDate']))       $this->db->set('sellFromDate',          $data['sellFromDate']);
+        if (isset($data['sellByDate']))         $this->db->set('sellByDate',            $data['sellByDate']);
+        if (isset($data['withdrawalFromDate'])) $this->db->set('withdrawalFromDate',    $data['withdrawalFromDate']);
+        if (isset($data['withdrawalByDate']))   $this->db->set('withdrawalByDate',      $data['withdrawalByDate']);
+        //if (isset($data['type']))               $this->db->set('type',                  $data['type']);
+        $this->db->where('idExchange', $data['idExchange']);
+        return $this->db->update('Exchange', $data);
+    }
 
 }

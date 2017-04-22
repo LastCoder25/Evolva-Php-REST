@@ -91,6 +91,16 @@ class UserCtrl extends CI_Controller
 				log_message('info', "UserCtrl - signin");
 				$userData = $this->jsonbourne->decodeReqBody();
 				$arrayOUsers = $this->userModel->getAccount($userData['identifiant'], $userData['password']);
+                                log_message("info", "----------- test");
+                                $res = $this->jsonbourne->forge(3, "a", $arrayOUsers);
+                                log_message("info", $res);
+                                $r = json_decode($res);
+                                $idUser = $r->data[0]->idUser;
+                                if(count($arrayOUsers)>= 1){
+                                    $this->load->model('tokenModel');
+                                    $token = $this->tokenModel->generate($idUser);
+                                    $arrayOUsers['token'] = $token;
+                                }
 				//return a json
 				echo count($arrayOUsers) >= 1 ?  $this->jsonbourne->forge(0, "User exists", $arrayOUsers):  $this->jsonbourne->forge(1, "user doesn't exit", null);
 		}
