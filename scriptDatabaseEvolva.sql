@@ -172,7 +172,8 @@ CREATE TABLE fromStatus(
 
 CREATE TABLE Session(
         idUser   int (11) NOT NULL ,
-        token Varchar (2000) NOT NULL
+        token Varchar (2000) NOT NULL,
+        status Varchar (5) NOT NULL
 )ENGINE=InnoDB;
 
 ALTER TABLE Articles ADD CONSTRAINT FK_Articles_type FOREIGN KEY (type) REFERENCES Type(type);
@@ -209,7 +210,7 @@ BEGIN
 	SELECT * FROM exchange
   WHERE idExchange IN (SELECT idExchange
                        FROM fromStatus
-                       WHERE fromStatus.idUser = id) AND exchange.withdrawalByDate >= NOW();
+                       WHERE fromStatus.idUser = id AND fromStatus.idStatus = 1) AND exchange.withdrawalByDate >= NOW();
 END |
 
 /* GET all ended exchanges of volunteer */
@@ -227,9 +228,9 @@ DELIMITER |
 CREATE PROCEDURE getAllExchangesOfNonVolunteer(IN id INT)
 BEGIN
 	SELECT * FROM exchange
-  WHERE idExchange NOT IN (SELECT idExchange
+  WHERE idExchange IN (SELECT idExchange
                        FROM fromStatus
-                       WHERE fromStatus.idUser = id) AND exchange.withdrawalByDate >= NOW();
+                       WHERE fromStatus.idUser = id AND fromStatus.idStatus = 2) AND exchange.withdrawalByDate >= NOW();
 END |
 
 /* GET all ended exchanges of volunteer */
@@ -283,7 +284,7 @@ END |
 
 /* Get all articles of user on Exchange */
 DELIMITER |
-CREATE PROCEDURE getArticlesOfUserOnExchange(IN idUser INT, IN idExchange INT)
+CREATE PROCEDURE getClothesOfUserOnExchange(IN idUser INT, IN idExchange INT)
 BEGIN
 	SELECT *
   FROM deposite
@@ -293,14 +294,37 @@ BEGIN
     AND deposite.idExchange = idExchange;
 END |
 
+/* Get all articles of user on Exchange */
+DELIMITER |
+CREATE PROCEDURE getToysOfUserOnExchange(IN idUser INT, IN idExchange INT)
+BEGIN
+	SELECT *
+  FROM deposite
+  INNER JOIN articles ON articles.idArticle = deposite.idArticle
+  INNER JOIN toy ON toy.idArticle = articles.idArticle
+  WHERE deposite.idUser = idUser
+    AND deposite.idExchange = idExchange;
+END |
+
 /* Get all articles on Exchange */
 DELIMITER |
-CREATE PROCEDURE getArticlesOnExchange(IN idExchange INT)
+CREATE PROCEDURE getClothesOnExchange(IN idExchange INT)
 BEGIN
 	SELECT *
   FROM deposite
   INNER JOIN articles ON articles.idArticle = deposite.idArticle
   INNER JOIN clothes ON clothes.idArticle = articles.idArticle
+  WHERE deposite.idExchange = idExchange;
+END |
+
+/* Get all articles on Exchange */
+DELIMITER |
+CREATE PROCEDURE getToysOnExchange(IN idExchange INT)
+BEGIN
+	SELECT *
+  FROM deposite
+  INNER JOIN articles ON articles.idArticle = deposite.idArticle
+  INNER JOIN toy ON toy.idArticle = toy.idArticle
   WHERE deposite.idExchange = idExchange;
 END |
 

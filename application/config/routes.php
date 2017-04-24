@@ -31,12 +31,16 @@ $route['exchanges/create']['POST'] = 'exchangeCtrl/create';
 $route['exchanges/update']['POST'] = 'exchangeCtrl/update';
 
 /* DEPOSITE & ARTICLES routes */
-$route['deposite/allOfUserOnExchange/(:num)/(:num)']['GET'] = 'depositeCtrl/getArticlesOfUserOnExchange/$1/$2';
-$route['deposite/allOnExchange/(:num)']['GET'] = 'depositeCtrl/getArticlesOnExchange/$1';
+$route['deposite/allClothesOfUserOnExchange/(:num)/(:num)']['GET'] = 'depositeCtrl/getClothesOfUserOnExchange/$1/$2';
+$route['deposite/allToysOfUserOnExchange/(:num)/(:num)']['GET'] = 'depositeCtrl/getToysOfUserOnExchange/$1/$2';
+$route['deposite/allClothesOnExchange/(:num)']['GET'] = 'depositeCtrl/getClothesOnExchange/$1';
+$route['deposite/allToysOnExchange/(:num)']['GET'] = 'depositeCtrl/getToysOnExchange/$1';
 $route['deposite/amountByUser/(:num)']['GET'] = 'depositeCtrl/amountByUser/$1';
 $route['deposite/update']['POST'] = 'depositeCtrl/modifyArticle';
-$route['deposite/createArticle']['POST'] = 'depositeCtrl/createArticle';
-$route['deposite/deleteArticle']['POST'] = 'depositeCtrl/deleteArticle';
+$route['deposite/createClothes']['POST'] = 'depositeCtrl/createClothes';
+$route['deposite/createToy']['POST'] = 'depositeCtrl/createToy';
+$route['deposite/deleteClothes']['POST'] = 'depositeCtrl/deleteClothes';
+$route['deposite/deleteToy']['POST'] = 'depositeCtrl/deleteToy';
 
 /* FROMSTATUS routes */
 $route['fromStatus/(:num)']['GET'] = 'fromStatusCtrl/getVolunteersOfExchange/$1';
@@ -45,3 +49,9 @@ $route['fromStatus/removeVolunteer']['POST'] = 'fromStatusCtrl/removeVolunteer';
 
 /* TYPEOFCLOTHES */
 $route['typeOfClothes']['GET'] = 'typeOfClothesCtrl/getTypeOfClothes';
+$route['typeOfToys']['GET'] = 'typeOfClothesCtrl/getTypeOfToys';
+
+/* TOKEN */
+$route['token']['POST'] = 'tokenCtrl/getIdUserFromToken';
+$route['token/deleteSession']['POST'] = 'tokenCtrl/deleteSession';
+

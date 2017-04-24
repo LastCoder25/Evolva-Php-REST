@@ -9,7 +9,7 @@ class TypeOfClothesCtrl extends CI_Controller
 	public function __construct($config = 'rest')
 	{
 		header('Access-Control-Allow-Origin: *');
-                header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+    header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
 		parent::__construct();
 		$this->load->library('jsonbourne');        //logical class to deal with json
 		$this->load->model('typeOfClothesModel');        // data layer
@@ -23,7 +23,8 @@ class TypeOfClothesCtrl extends CI_Controller
 	{
 		echo "index";
 	}
-    /* _________________________   GET ______________________ */
+	/* _________________________   GET ______________________ */
+
     /**
     Request to get ALL
     Send a jsonArray of type of clothes as a response
@@ -32,19 +33,7 @@ class TypeOfClothesCtrl extends CI_Controller
     {
         $arrayTOC = $this->typeOfClothesModel->getAllTypeOfClothes(); // request to model
         //return a json
-	echo count($arrayTOC) > 1 ?  $this->jsonbourne->forge(0, "Types of clothes", $arrayTOC):  $this->jsonbourne->forge(1, "no type of clothes", null);
-    }
-    
-    /* _________________________   GET ______________________ */
-    /**
-    Request to get ALL
-    Send a jsonArray of type of toys as a response
-    */
-    public function getTypeOfToys()
-    {
-        $arrayTOC = $this->typeOfClothesModel->getAllTypeOfToys(); // request to model
-        //return a json
-	echo count($arrayTOC) > 1 ?  $this->jsonbourne->forge(0, "Types of toys", $arrayTOC):  $this->jsonbourne->forge(1, "no type of toys", null);
+				echo count($arrayTOC) > 1 ?  $this->jsonbourne->forge(0, "Types of clothes", $arrayTOC):  $this->jsonbourne->forge(1, "no type of clothes", null);
     }
 
 }

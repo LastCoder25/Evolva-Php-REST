@@ -29,10 +29,17 @@ class DepositeCtrl extends CI_Controller
     Request to get ALL getCompanies
     Send a jsonArray of companies as a response
     */
-    public function getArticlesOfUserOnExchange($idUser, $idExchange)
-    {
-				log_message('info', "DepositeCtrl - getArticlesOfUserOnExchange");
-				$deposites = $this->depositeModel->getArticlesOfUserOnExchange($idUser, $idExchange);
+                public function getClothesOfUserOnExchange($idUser, $idExchange)
+                {
+				log_message('info', "DepositeCtrl - getClothesOfUserOnExchange");
+				$deposites = $this->depositeModel->getClothesOfUserOnExchange($idUser, $idExchange);
+				echo  $deposites >= 1 ?  $this->jsonbourne->forge(0, "deposites exists", $deposites):  $this->jsonbourne->forge(1, "no deposites for this volunteer", null);
+		}
+                
+                public function getToysOfUserOnExchange($idUser, $idExchange)
+                {
+				log_message('info', "DepositeCtrl - getToysOfUserOnExchange");
+				$deposites = $this->depositeModel->getToysOfUserOnExchange($idUser, $idExchange);
 				echo  $deposites >= 1 ?  $this->jsonbourne->forge(0, "deposites exists", $deposites):  $this->jsonbourne->forge(1, "no deposites for this volunteer", null);
 		}
                 
@@ -77,11 +84,21 @@ class DepositeCtrl extends CI_Controller
 			Json has been passed in request body with article datas
 			Send a json to confirm the creation of the article
 		*/
-		public function createArticle()
+		public function createClothes()
 		{
-                    log_message('info', "DepositeCtrl - createArticle");
+                    log_message('info', "DepositeCtrl - createClothes");
                     $articleData = $this->jsonbourne->decodeReqBody();
-                    $resultFromCreateANewArticle = $this->depositeModel->create($articleData);
+                    $resultFromCreateANewArticle = $this->depositeModel->createClothes($articleData);
+                    echo count($resultFromCreateANewArticle) >= 1 
+                        ?  $this->jsonbourne->forge(0, "The article has been created", $resultFromCreateANewArticle)
+                        :  $this->jsonbourne->forge(1, "error in the creation of article", null);
+		}
+                
+                public function createToy()
+		{
+                    log_message('info', "DepositeCtrl - createToy");
+                    $articleData = $this->jsonbourne->decodeReqBody();
+                    $resultFromCreateANewArticle = $this->depositeModel->createToy($articleData);
                     echo count($resultFromCreateANewArticle) >= 1 
                         ?  $this->jsonbourne->forge(0, "The article has been created", $resultFromCreateANewArticle)
                         :  $this->jsonbourne->forge(1, "error in the creation of article", null);
@@ -93,11 +110,19 @@ class DepositeCtrl extends CI_Controller
 			Json has been passed in request body with user data
 			Send a json to confirm the suppression of the article
 		*/
-		public function deleteArticle()
+		public function deleteClothes()
 		{
 					log_message('info', "DepositeCtrl - createArticle");
 					$articleData = $this->jsonbourne->decodeReqBody();
-					$resultFromCreateANewArticle = $this->depositeModel->delete($articleData);
+					$resultFromCreateANewArticle = $this->depositeModel->deleteClothes($articleData);
+					echo count($resultFromCreateANewArticle) >= 1 ?  $this->jsonbourne->forge(0, "The article has been created", $resultFromCreateANewArticle):  $this->jsonbourne->forge(1, "error in the creation of article", null);
+		}
+                
+                public function deleteToy()
+		{
+					log_message('info', "DepositeCtrl - createArticle");
+					$articleData = $this->jsonbourne->decodeReqBody();
+					$resultFromCreateANewArticle = $this->depositeModel->deleteToy($articleData);
 					echo count($resultFromCreateANewArticle) >= 1 ?  $this->jsonbourne->forge(0, "The article has been created", $resultFromCreateANewArticle):  $this->jsonbourne->forge(1, "error in the creation of article", null);
 		}
 

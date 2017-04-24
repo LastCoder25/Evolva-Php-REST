@@ -23,5 +23,21 @@ class TypeOfClothesModel extends CI_Model
         if($query -> num_rows() >= 1) return $query->result();
         else return false;
     }
+    
+    /* _________________ RETRIEVE __________________ */
+    /**
+    Retrieve all type of toys
+    @return query array of status
+    */
+    public function getAllTypeOfToys()
+    {
+        $this -> db -> select('*');
+        $this -> db -> from('typeOfToy');
+
+        $query = $this -> db -> get();
+
+        if($query -> num_rows() >= 1) return $query->result();
+        else return false;
+    }
 
 }

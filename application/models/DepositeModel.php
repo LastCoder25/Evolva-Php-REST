@@ -12,10 +12,17 @@ class DepositeModel extends CI_Model
     Retrieve all exchanges of a non volunteer
     @return query array of exchanges
     */
-    public function getArticlesOfUserOnExchange($idUser, $idExchange)
+    public function getClothesOfUserOnExchange($idUser, $idExchange)
     {
-      log_message('info', "model - getArticlesOfUserOnExchange");
-      $query = $this->db->query("CALL getArticlesOfUserOnExchange($idUser, $idExchange)");
+      log_message('info', "model - getClothesOfUserOnExchange");
+      $query = $this->db->query("CALL getClothesOfUserOnExchange($idUser, $idExchange)");
+      return $query->result();
+    }
+    
+        public function getToysOfUserOnExchange($idUser, $idExchange)
+    {
+      log_message('info', "model - getToysOfUserOnExchange");
+      $query = $this->db->query("CALL getToysOfUserOnExchange($idUser, $idExchange)");
       return $query->result();
     }
     
@@ -23,10 +30,17 @@ class DepositeModel extends CI_Model
     Retrieve all exchanges of a non volunteer
     @return query array of exchanges
     */
-    public function getArticlesOnExchange($idExchange)
+    public function getClothesOnExchange($idExchange)
     {
-      log_message('info', "model - getArticlesOnExchange");
-      $query = $this->db->query("CALL getArticlesOnExchange($idExchange)");
+      log_message('info', "model - getClothesOnExchange");
+      $query = $this->db->query("CALL getClothesOnExchange($idExchange)");
+      return $query->result();
+    }
+    
+    public function getToysOnExchange($idExchange)
+    {
+      log_message('info', "model - getToysOnExchange");
+      $query = $this->db->query("CALL getToysOnExchange($idExchange)");
       return $query->result();
     }
     
@@ -85,7 +99,7 @@ class DepositeModel extends CI_Model
     Create a new article
     @params $data Array of data received and decode from the json
     */
-    public function create($data)
+    public function createClothes($data)
     {
         /* INSERT INTO Article */
         if (isset($data['description']))  $this->db->set('description', $data['description']);
@@ -122,13 +136,47 @@ class DepositeModel extends CI_Model
         if (isset($data['price']))         $this->db->set('price',        $data['price']);
         return $this->db->insert('deposite');
     }
+    
+        public function createToy($data)
+    {
+        /* INSERT INTO Article */
+        if (isset($data['description']))  $this->db->set('description', $data['description']);
+        $this->db->set('type', "Jouets");
+        $this->db->insert('articles');
+        $insert_id = $this->db->insert_id();
+
+        /* INSERT INTO Clothes */
+        $this->db->set('idArticle', $insert_id);
+        if (isset($data['typeOfToy']))  $this->db->set('typeOfToy', $data['typeOfToy']);
+        $this->db->insert('toy');
+        
+        /* INSERT INTO fromStatus for the first article of the seller */
+        $this -> db -> select('*');
+        $this -> db -> from('fromStatus');
+        $this -> db -> where('idExchange', $data['idExchange']);
+        $this -> db -> where('idUser', $data['idUser']);
+        $query = $this -> db -> get();
+        if($query -> num_rows() == 0){
+            $this->db->set('idExchange', $data['idExchange']);
+            $this->db->set('idUser', $data['idUser']);
+            $this->db->set('idStatus', 2);
+            $this->db->insert('fromStatus');
+        };
+
+        /* INSERT INTO Deposite */
+        $this->db->set('idArticle', $insert_id);
+        if (isset($data['idExchange']))    $this->db->set('idExchange',   $data['idExchange']);
+        if (isset($data['idUser']))        $this->db->set('idUser',       $data['idUser']);
+        if (isset($data['price']))         $this->db->set('price',        $data['price']);
+        return $this->db->insert('deposite');
+    }
 
     #* _________________ DELETE __________________ */
     /**
     Remove a volunteer
     @params $data Array of data received and decode from the json
     */
-    public function delete($data)
+    public function deleteClothes($data)
     {
       log_message('info', "DepositeModel - delete");
       $idUser = $data['idUser'];
@@ -144,6 +192,44 @@ class DepositeModel extends CI_Model
       /* DELETE from clothes */
       $this -> db -> where('idArticle', $idArticle);
       $this -> db -> delete('clothes');
+
+      /* DELETE from articles */
+      $this -> db -> where('idArticle', $idArticle);
+      $this -> db -> delete('articles');
+      
+        $this -> db -> select('*');
+        $this -> db -> from('deposite');
+        $this -> db -> where('idExchange', $data['idExchange']);
+        $this -> db -> where('idUser', $data['idUser']);
+        $query = $this -> db -> get();
+        if($query -> num_rows() == 0){
+            /* DELETE from fromStatus */
+            $this -> db -> where('idUser', $idUser);
+            $this -> db -> where('idExchange', $idExchange);
+            $this -> db -> where('idStatus', 2);
+            $this -> db -> delete('fromStatus');
+        };
+    }
+    
+    public function deleteToy($data)
+    {
+      log_message('info', "DepositeModel - delete");
+      $idUser = $data['idUser'];
+      $idExchange = $data['idExchange'];
+      $idArticle = $data['idArticle'];
+      log_message('info', $idUser);
+      log_message('info', $idExchange);
+      log_message('info', $idArticle);
+      
+      /* DELETE from deposite */
+      $this -> db -> where('idUser', $idUser);
+      $this -> db -> where('idExchange', $idExchange);
+      $this -> db -> where('idArticle', $idArticle);
+      $this -> db -> delete('deposite');
+
+      /* DELETE from clothes */
+      $this -> db -> where('idArticle', $idArticle);
+      $this -> db -> delete('toy');
 
       /* DELETE from articles */
       $this -> db -> where('idArticle', $idArticle);

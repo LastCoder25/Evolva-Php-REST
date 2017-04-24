@@ -14,29 +14,54 @@ class TokenModel extends CI_Model
     @params $data Array of data received and decode from the json
     */
     public function generate($idUser)
-    {
-        //basic examples
-        $this->db->set ('idUser', $idUser);
+    {        
+        $this -> db -> select('*');
+        $this -> db -> from('Admin');
+        $this -> db -> where('idUser', $idUser);
+        $query = $this -> db -> get();
+        if(count($query -> result()) > 0) {
+            $this -> db -> set ('status', "Admin");
+        } else {
+            $this -> db -> set ('status', "user");
+        }
+        
         $token = '';
-        $length = rand(120, 150);
+        $length = rand(12, 15);
         for ($i = 1; $i <= $length; $i++) {
             $token = $token . md5(uniqid(mt_rand(), true));
         }
-        $this->db->set ('token', $token);
-        $query = $this->db->insert('session');
+        $this -> db -> set ('idUser', $idUser);
+        $this -> db -> set ('token', $token);
+        $query = $this -> db -> insert('session');
         return $token;
     }
     
-        #* _________________ CREATE __________________ */
+    #* _________________ GET __________________ */
+    /**
+    Get idUser by token
+    @params $data Array of data received and decode from the json
+    */
+    public function getIdUserFromToken($data)
+    {
+        log_message('info', "getIdUserFromToken");
+        $this -> db -> select('*');
+        $this -> db -> from('session');
+        $this -> db -> where('token', $data);
+        $query = $this -> db -> get();
+        return $query->result();
+    }
+    
+    #* _________________ DELETE __________________ */
     /**
     Delete a token
     @params $data Array of data received and decode from the json
     */
-    public function delete($token)
+    public function deleteSession($data)
     {
-        //basic examples
-        $this -> db -> where('token', $token);
-        $this -> db -> delete('session');
+        log_message('info', "deleteSession");
+        $this -> db -> where('token', $data);
+        $query = $this -> db -> delete('session');
+        return "ok";
     }
 
 
